@@ -64,9 +64,7 @@ class Bug extends AppModel {
 				'allowEmpty' => TRUE,
 			),
 			'mimeType' => array(
-				'rule' => array(
-					'mimeType' => array('image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/tiff'),
-				),
+				'rule' => array('mimeType' => array('image/gif', 'image/png', 'image/jpg', 'image/jpeg')),
 				'message' => 'Please only upload images.',
 				'allowEmpty' => TRUE,
 			),
@@ -92,7 +90,9 @@ class Bug extends AppModel {
 		if(!move_uploaded_file($check['bug_photo']['tmp_name'], WWW_ROOT . 'img' . DS . 'uploads' . DS . $check['bug_photo']['name'])){
 			return FALSE;	
 		}
-		$this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $check['bug_photo']['name'];
+                //Set permissions on the file
+		chmod(WWW_ROOT . 'img' . DS . 'uploads' . DS . $check['bug_photo']['name'], 0755);
+                $this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $check['bug_photo']['name'];
 		return TRUE;
 	}
 }
