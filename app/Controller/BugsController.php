@@ -24,7 +24,6 @@ class BugsController extends AppController {
 		$this->Bug->recursive = 0;
 		$this->set('bugs', $this->Paginator->paginate());
 	}
-
 /**
  * view method
  *
@@ -48,7 +47,11 @@ class BugsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Bug->create();
-			if ($this->Bug->save($this->request->data)) {
+			$data = $this->request->data['Bug'];
+			if(!$data['bug_photo']['name']){
+				unset($data['bug_photo']);
+			}
+                        if ($this->Bug->save($data)) {
 				$this->Session->setFlash(__('The bug has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -69,7 +72,11 @@ class BugsController extends AppController {
 			throw new NotFoundException(__('Invalid bug'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Bug->save($this->request->data)) {
+			$data = $this->request->data['Bug'];
+			if(!$data['bug_photo']['name']){
+				unset($data['bug_photo']);
+			}
+                        if ($this->Bug->save($data)) {
 				$this->Session->setFlash(__('The bug has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -187,4 +194,5 @@ class BugsController extends AppController {
 			$this->Session->setFlash(__('The bug could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+}

@@ -1,9 +1,9 @@
 <div class="bugs form">
-<?php echo $this->Form->create('Bug'); ?>
+<?php echo $this->Form->create('Bug', array('type' => 'file')); ?>
 	<fieldset>
 		<legend><?php echo __('Edit Bug'); ?></legend>
 	<?php
-		echo $this->Form->input('bug_photo');
+		echo $this->Form->input('bug_photo', array('type' => 'file'));
 		echo $this->Form->input('bug_size');
 		echo $this->Form->input('specimen_code');
 		echo $this->Form->input('lab_name');

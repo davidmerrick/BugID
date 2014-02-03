@@ -1,5 +1,5 @@
 <div class="bugs form">
-<?php echo $this->Form->create('Bug'); ?>
+<?php echo $this->Form->create('Bug', array('type' => 'file')); ?>
 	<fieldset>
 		<legend><?php echo __('Add Bug'); ?></legend>
 	<?php
@@ -22,7 +22,6 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-
 		<li><?php echo $this->Html->link(__('List Bugs'), array('action' => 'index')); ?></li>
 	</ul>
 </div>

@@ -1,5 +1,5 @@
 <?php
-App::uses('AppModel', 'Model');
+App::uses('AppModel', 'Model', 'Debugger', 'CakeLog');
 /**
  * Bug Model
  *
@@ -30,32 +30,69 @@ class Bug extends AppModel {
 		'bug_size' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'message' => 'Please specify a number.',
 				'allowEmpty' => true,
 				'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+                        'nonNegative' => array(
+                            'rule' => array('comparison', '>=', 0),
+                            'message' => 'Bug size must be greater than or equal to 0.',
+                        ),
 		),
 		'specimen_code' => array(
 			'alphaNumeric' => array(
 				'rule' => array('alphaNumeric'),
-				//'message' => 'Your custom message here',
+				'message' => 'Specimen Code Must be Alphanumeric.',
 				'allowEmpty' => true,
 				'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'lab_name' => array(
 			'alphaNumeric' => array(
 				'rule' => array('alphaNumeric'),
-				//'message' => 'Your custom message here',
+				'message' => 'Lab Name Must be Alphanumeric.',
 				'allowEmpty' => true,
 				'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+                'bug_photo' => array(
+                    'uploadError' => array(
+				'rule' => 'uploadError',
+				'message' => 'The image upload failed.',
+				'allowEmpty' => TRUE,
+			),
+			'mimeType' => array(
+				'rule' => array(
+					'mimeType' => array('image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/tiff'),
+				),
+				'message' => 'Please only upload images.',
+				'allowEmpty' => TRUE,
+			),
+			//'fileSize' => array(
+			//	'rule' => array('fileSize', '<=', '1MB'), 
+			//	'message' => 'Cover image must be less than 1MB.',
+			//	'allowEmpty' => TRUE,
+			//),
+			'processImageUpload' => array(
+				'rule' => array('processImageUpload',
+				'message' => 'Unable to process cover image upload.',
+				'allowEmpty' => TRUE, 
+				),
+			),
+                    ),
 	);
+       
+        public function processImageUpload($check = array()){
+                CakeLog::write('debug', 'This is a test');
+                if(!is_uploaded_file($check['bug_photo']['tmp_name'])){
+			return FALSE;
+		}
+		if(!move_uploaded_file($check['bug_photo']['tmp_name'], WWW_ROOT . 'img' . DS . 'uploads' . DS . $check['bug_photo']['name'])){
+			return FALSE;	
+		}
+		$this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $check['bug_photo']['name'];
+		return TRUE;
+	}
 }

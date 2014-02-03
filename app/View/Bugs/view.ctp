@@ -1,20 +1,13 @@
 <div class="bugs view">
 <h2><?php echo __('Bug'); ?></h2>
 	<dl>
-		<dt><?php echo __('Bug Id'); ?></dt>
-		<dd>
-			<?php echo h($bug['Bug']['bug_id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Timestamp'); ?></dt>
-		<dd>
-			<?php echo h($bug['Bug']['timestamp']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Bug Photo'); ?></dt>
 		<dd>
-			<?php echo h($bug['Bug']['bug_photo']); ?>
-			&nbsp;
+                    <?php 
+			if($bug['Bug']['bug_photo']){
+				echo $this->Html->image($bug['Bug']['bug_photo']);
+			} 
+			?>
 		</dd>
 		<dt><?php echo __('Bug Size'); ?></dt>
 		<dd>
