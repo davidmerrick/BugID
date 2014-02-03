@@ -53,26 +53,19 @@ class Bug extends AppModel {
 				'message' => 'Lab Name Must be Alphanumeric.',
 				'allowEmpty' => true,
 				'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
                 'bug_photo' => array(
-                    'uploadError' => array(
+                        'uploadError' => array(
 				'rule' => 'uploadError',
 				'message' => 'The image upload failed.',
 				'allowEmpty' => TRUE,
 			),
 			'mimeType' => array(
-				'rule' => array('mimeType' => array('image/gif', 'image/png', 'image/jpg', 'image/jpeg')),
+				'rule' => array('mimeType', array('image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/tiff')),
 				'message' => 'Please only upload images.',
 				'allowEmpty' => TRUE,
 			),
-			//'fileSize' => array(
-			//	'rule' => array('fileSize', '<=', '1MB'), 
-			//	'message' => 'Cover image must be less than 1MB.',
-			//	'allowEmpty' => TRUE,
-			//),
 			'processImageUpload' => array(
 				'rule' => array('processImageUpload',
 				'message' => 'Unable to process cover image upload.',
