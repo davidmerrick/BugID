@@ -2,33 +2,13 @@
 	<h2><?php echo __('Bugs'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('bug_photo'); ?></th>
-			<th><?php echo $this->Paginator->sort('bug_size'); ?></th>
 			<th><?php echo $this->Paginator->sort('specimen_code'); ?></th>
-			<th><?php echo $this->Paginator->sort('lab_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('river'); ?></th>
-			<th><?php echo $this->Paginator->sort('state'); ?></th>
-			<th><?php echo $this->Paginator->sort('country'); ?></th>
-			<th><?php echo $this->Paginator->sort('collector_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('researcher_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('latitude'); ?></th>
-			<th><?php echo $this->Paginator->sort('longitude'); ?></th>
 			<th><?php echo $this->Paginator->sort('species_name'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($bugs as $bug): ?>
 	<tr>
-		<td><?php echo h($bug['Bug']['bug_photo']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['bug_size']); ?>&nbsp;</td>
 		<td><?php echo h($bug['Bug']['specimen_code']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['lab_name']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['river']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['state']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['country']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['collector_name']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['researcher_name']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['latitude']); ?>&nbsp;</td>
-		<td><?php echo h($bug['Bug']['longitude']); ?>&nbsp;</td>
 		<td><?php echo h($bug['Bug']['species_name']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $bug['Bug']['bug_id'])); ?>

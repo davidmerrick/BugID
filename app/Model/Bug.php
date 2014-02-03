@@ -74,18 +74,20 @@ class Bug extends AppModel {
 			),
                     ),
 	);
-       
+        
         public function processImageUpload($check = array()){
-                CakeLog::write('debug', 'This is a test');
                 if(!is_uploaded_file($check['bug_photo']['tmp_name'])){
 			return FALSE;
 		}
-		if(!move_uploaded_file($check['bug_photo']['tmp_name'], WWW_ROOT . 'img' . DS . 'uploads' . DS . $check['bug_photo']['name'])){
+                $extension = pathinfo($check['bug_photo']['name'], PATHINFO_EXTENSION);
+                //Generate a random string for the filename based on the MD5 hash of the file
+                $filename = uniqid(md5_file($check['bug_photo']['tmp_name'])) . "." . $extension;
+		if(!move_uploaded_file($check['bug_photo']['tmp_name'], WWW_ROOT . 'img' . DS . 'uploads' . DS . $filename)){
 			return FALSE;	
 		}
                 //Set permissions on the file
-		chmod(WWW_ROOT . 'img' . DS . 'uploads' . DS . $check['bug_photo']['name'], 0755);
-                $this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $check['bug_photo']['name'];
+		chmod(WWW_ROOT . 'img' . DS . 'uploads' . DS . $filename, 0755);
+                $this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $filename;
 		return TRUE;
 	}
 }
