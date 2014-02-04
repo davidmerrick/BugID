@@ -7,7 +7,12 @@ class User extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'A username is required'
+            ),
+            'email' => array(
+                'rule'=> array('custom', '/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+/'),
+                'message' => 'Please specify a valid e-mail address'
             )
+            
         ),
         'password' => array(
             'required' => array(
