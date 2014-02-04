@@ -90,4 +90,8 @@ class Bug extends AppModel {
                 $this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $filename;
 		return TRUE;
 	}
+        
+        public function isOwnedBy($bug, $user) {
+            return $this->field('id', array('id' => $bug, 'user_id' => $user)) === $bug;
+        }
 }
