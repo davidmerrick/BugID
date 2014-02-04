@@ -38,3 +38,13 @@
 		<li><?php echo $this->Html->link(__('New Bug'), array('action' => 'add')); ?></li>
 	</ul>
 </div>
+
+<?php 
+$user = $this->Session->read('Auth.User');
+if(!empty($user)) {
+    echo "<p class=\"navbar-text pull-right\">";
+    echo 'Logged in as ' . $user['username'] . '<br />';
+    echo $this->Html->link(__('Logout'), array('controller' => 'users', 'action' => 'logout'));
+    echo "</p>";
+}
+?>
