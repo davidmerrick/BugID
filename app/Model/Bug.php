@@ -47,15 +47,11 @@ class Bug extends AppModel {
 				'required' => false,
 			),
 		),
-		'lab_name' => array(
-			'alphaNumeric' => array(
-				'rule' => array('alphaNumeric'),
-				'message' => 'Lab Name Must be Alphanumeric.',
-				'allowEmpty' => true,
-				'required' => false,
-			),
-		),
                 'bug_photo' => array(
+                        'required' => array(
+                                'required' => TRUE,
+                                'message' => 'An image is required.',
+			),
                         'uploadError' => array(
 				'rule' => 'uploadError',
 				'message' => 'The image upload failed.',
