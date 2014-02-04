@@ -6,13 +6,16 @@ class User extends AppModel {
         'username' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A username is required'
+                'message' => 'Please enter an e-mail address.'
             ),
-            'email' => array(
-                'rule'=> array('custom', '/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+/'),
-                'message' => 'Please specify a valid e-mail address'
+            'isValidEmail' => array(
+                'rule'=> 'email',
+                'message' => 'Please specify a valid e-mail address.'
+            ),
+            'isUnique' => array(
+                'rule' => 'isUnique',
+                'message' => 'This e-mail address has already been registered.'
             )
-            
         ),
         'password' => array(
             'required' => array(
@@ -22,6 +25,19 @@ class User extends AppModel {
             'length' => array(
                 'rule'    => array('between', 5, 15),
                 'message' => 'Passwords must be between 5 and 15 characters long.'
+            )
+        ),
+        'repass' => array(
+            'equaltofield' => array(
+                'rule' => array('equaltofield', 'password'),
+                'message' => 'Passwords must match.',
+                'on' => 'create', // Limit validation to 'create' or 'update' operations
+            )
+        ),
+        'nickname' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Please enter a username.'
             )
         ),
         'role' => array(
@@ -42,4 +58,15 @@ class User extends AppModel {
         }
         return true;
     }
+    
+    //Check if the password confirm is equal to the password
+    public function equaltofield($check, $otherfield){
+        //get name of field
+        $fname = '';
+        foreach ($check as $key => $value){
+            $fname = $key;
+            break;
+        }
+        return $this->data[$this->name][$otherfield] === $this->data[$this->name][$fname];
+    } 
 }
