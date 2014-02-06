@@ -37,9 +37,12 @@
 	</div>
 </div>
 <div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
+	<h3><?php echo __('Navigation'); ?></h3>
+            <ul>
+                <li><?php echo $this->Html->link(__('My Bugs'), array('action' => 'mybugs')); ?></li>
+            </ul>    
+        <h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Bug'), array('action' => 'add')); ?></li>
-                <li><?php echo $this->Html->link(__('My Bugs'), array('action' => 'mybugs')); ?></li>
 	</ul>
 </div>
