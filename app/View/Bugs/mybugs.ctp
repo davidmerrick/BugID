@@ -34,13 +34,6 @@
 	?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Navigation'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('All Bugs'), array('action' => 'index')); ?></li>
-	</ul>
-        <h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Bug'), array('action' => 'add')); ?></li>
-	</ul>
-</div>
+<?php
+echo $this->Element('sidebar');
+?>
