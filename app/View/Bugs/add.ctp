@@ -10,7 +10,7 @@
 		echo $this->Form->input('specimen_code');
 		echo $this->Form->input('lab_name');
 		echo $this->Form->input('river');
-		echo $this->Form->input('state');
+                echo $this->element('statedropdown');
 		echo $this->Form->input('country');
 		echo $this->Form->input('collector_name');
 		echo $this->Form->input('researcher_name');
