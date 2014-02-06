@@ -23,11 +23,9 @@ class BugsController extends AppController {
 	public function index() {
 		//Set recursive to 1 to retrieve users associated with the bug
                 $this->Bug->recursive = 1;
-                //Sets page title
-                $this->set('title_for_layout', 'All Bugs');
+                $this->set('title_for_layout', 'All Bugs'); //Sets page title
 		$this->set('bugs', $this->Paginator->paginate());
 	}
-
 /**
  * Shows a list of bugs user has uploaded
  *
@@ -35,9 +33,8 @@ class BugsController extends AppController {
  */
 	public function mybugs() {
                 $this->set('title_for_layout', 'My Bugs'); //Sets page title
-		$this->set('bugs', $this->Bug->find('all', array(
-                    'conditions' => array('Bug.user_id' => $this->Auth->user('id'))
-                )));
+		$this->Bug->find('all', array('conditions' => array('Bug.user_id' => $this->Auth->user('id'))));
+                $this->set('bugs', $this->Paginator->paginate());
 	}
         
 /**
@@ -231,11 +228,11 @@ class BugsController extends AppController {
 	}
         
         public function isAuthorized($user) {
-            // All registered users can add posts
-            if ($this->action === 'add') {
+            // All registered users can add posts and view their own bugs
+            if ($this->action === 'add' || $this->action === 'mybugs') {
                 return true;
             }
-
+            
             // The owner of a post can edit and delete it
             if (in_array($this->action, array('edit', 'delete'))) {
                 $bugId = $this->request->params['pass'][0];
@@ -243,7 +240,6 @@ class BugsController extends AppController {
                     return true;
                 }
             }
-
             return parent::isAuthorized($user);
         }
 }

@@ -1,4 +1,4 @@
-<div class="bugs mybugs">
+<div class="bugs index">
 	<h2><?php echo __('My Bugs'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
