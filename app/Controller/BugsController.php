@@ -21,11 +21,25 @@ class BugsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Bug->recursive = 0;
+		//Set recursive to 1 to retrieve users associated with the bug
+                $this->Bug->recursive = 1;
                 //Sets page title
                 $this->set('title_for_layout', 'All Bugs');
 		$this->set('bugs', $this->Paginator->paginate());
 	}
+
+/**
+ * Shows a list of bugs user has uploaded
+ *
+ * @return void
+ */
+	public function mybugs() {
+                $this->Bug->recursive = 0;
+                //Sets page title
+                $this->set('title_for_layout', 'My Bugs');
+		$this->set('bugs', $this->Paginator->paginate());
+	}
+        
 /**
  * view method
  *

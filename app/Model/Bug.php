@@ -106,4 +106,11 @@ class Bug extends AppModel {
         public function isOwnedBy($bug, $user) {
             return $this->field('bug_id', array('bug_id' => $bug, 'user_id' => $user)) === $bug;
         }
+        
+        public $belongsTo = array(
+            'User' => array(
+                'className' => 'User',
+                'foreignKey' => 'user_id'
+             )
+        );
 }

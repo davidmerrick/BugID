@@ -1,7 +1,4 @@
-<?php
-$logotext = 'BugID: I need to identify this bug!!';
-
-?>
+<?php $logotext = 'BugID: I need to identify this bug!!'; ?>
 <!DOCTYPE html>
 <html>
 <head>
