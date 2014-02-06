@@ -34,10 +34,10 @@ class BugsController extends AppController {
  * @return void
  */
 	public function mybugs() {
-                $this->Bug->recursive = 0;
-                //Sets page title
-                $this->set('title_for_layout', 'My Bugs');
-		$this->set('bugs', $this->Paginator->paginate());
+                $this->set('title_for_layout', 'My Bugs'); //Sets page title
+		$this->set('bugs', $this->Bug->find('all', array(
+                    'conditions' => array('Bug.user_id' => $this->Auth->user('id'))
+                )));
 	}
         
 /**
