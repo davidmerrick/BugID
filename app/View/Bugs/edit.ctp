@@ -12,8 +12,7 @@
                     echo $this->Form->input('species_name');
                 }
                 //Disable updates on bug_id and bug_photo
-		echo $this->Form->input('bug_photo', array('type'=>'hidden', 'disabled' => 'disabled'));
-                echo $this->Form->input('bug_id', array('type'=>'hidden', 'disabled' => 'disabled'));
+                echo $this->Form->input('bug_id', array('type'=>'hidden'));
                 
                 //Do let them change everything else
                 echo $this->Form->input('bug_size');

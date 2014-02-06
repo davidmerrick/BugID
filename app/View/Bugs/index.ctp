@@ -1,5 +1,5 @@
 <div class="bugs index">
-	<h2><?php echo __('Bugs'); ?></h2>
+	<h2><?php echo __('All Bugs'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('specimen_code'); ?></th>

@@ -24,9 +24,7 @@ $logotext = 'BugID: I need to identify this bug!!';
                         <?php echo $this->element('loginbar'); ?>
 		</div>
 		<div id="content">
-
 			<?php echo $this->Session->flash(); ?>
-
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">

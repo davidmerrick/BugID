@@ -22,6 +22,8 @@ class BugsController extends AppController {
  */
 	public function index() {
 		$this->Bug->recursive = 0;
+                //Sets page title
+                $this->set('title_for_layout', 'All Bugs');
 		$this->set('bugs', $this->Paginator->paginate());
 	}
 /**
@@ -78,10 +80,24 @@ class BugsController extends AppController {
 			$data = $this->request->data['Bug'];
                         //if(!$data['bug_photo']['name']){
                         //Don't allow photo to be changed
-                        unset($data['bug_photo']);
+                        //unset($data['bug_photo']);
                         //}
-                        if ($this->Bug->save($data)) {
-				$this->Session->setFlash(__('The bug has been saved.'));
+                        
+                        //Only allow certain fields to be updated
+                        if ($this->Bug->save($data, true, array(
+                            'bug_size', 
+                            'specimen_code', 
+                            'species_name', 
+                            'river', 
+                            'state', 
+                            'country', 
+                            'bug_id',
+                            'collector_name',
+                            'researcher_name',
+                            'latitude',
+                            'longitude'
+                            ))) {
+                                $this->Session->setFlash(__('The bug has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The bug could not be saved. Please, try again.'));
