@@ -1,3 +1,7 @@
+<?php
+$logotext = 'BugID: I need to identify this bug!!';
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +20,8 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>BugID: I need to identify this bug!!  &copy;</h1>
+			<h1 id="logo"><?php echo $this->Html->link(__($logotext), array('controller' => 'bugs', 'action' => 'index')); ?></h1>
+                        <?php echo $this->element('loginbar'); ?>
 		</div>
 		<div id="content">
 

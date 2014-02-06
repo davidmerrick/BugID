@@ -67,6 +67,20 @@ p {
 	text-align: left;
 }
 
+
+/* header */
+#logo {
+    float:left;
+}
+
+#logo a {
+    text-decoration:none !important;
+}
+
+#loginbar{
+    float:right;
+}
+
 #header{
 	padding: 10px 20px;
 }
@@ -76,15 +90,15 @@ p {
 	color: #fff;
 	padding: 0px 30px;
 }
+
 #header h1 a {
 	color: #fff;
-	background: #003d4c;
 	font-weight: normal;
 	text-decoration: none;
+        text-decoration: underline;
 }
 #header h1 a:hover {
 	color: #fff;
-	background: #003d4c;
 	text-decoration: underline;
 }
 #content{
