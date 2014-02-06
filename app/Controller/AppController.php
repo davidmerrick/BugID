@@ -50,7 +50,10 @@ class AppController extends Controller {
         );
 
     public function beforeFilter() {
+        parent::beforeFilter();     
         $this->Auth->allow('index', 'view');
+        $this->theme='BugID';       
+        $this->layout = 'default';
     }
    
     public function isAuthorized($user) {
