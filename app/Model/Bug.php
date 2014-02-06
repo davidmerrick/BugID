@@ -5,8 +5,7 @@ App::uses('AppModel', 'Model', 'Debugger', 'CakeLog');
  *
  */
 class Bug extends AppModel {
-
-
+    
 /**
  * Primary key field
  *
@@ -113,4 +112,6 @@ class Bug extends AppModel {
                 'foreignKey' => 'user_id'
              )
         );
+        
+        
 }

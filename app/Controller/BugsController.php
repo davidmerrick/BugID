@@ -33,8 +33,13 @@ class BugsController extends AppController {
  */
 	public function mybugs() {
                 $this->set('title_for_layout', 'My Bugs'); //Sets page title
-		$this->Bug->find('all', array('conditions' => array('Bug.user_id' => $this->Auth->user('id'))));
-                $this->set('bugs', $this->Paginator->paginate());
+		
+                //Do a custom pagination query for bugs belonging to user
+                $this->Paginator->settings = array(
+                    'conditions' => array('Bug.user_id' => $this->Auth->User('id'))
+                );
+                $bugs = $this->Paginator->paginate();
+                $this->set(compact('bugs'));
 	}
         
 /**
