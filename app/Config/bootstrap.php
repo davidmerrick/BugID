@@ -25,6 +25,9 @@
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
 
+//Set default e-mail address
+Configure::write('App.defaultEmail', 'noreply@engr.oregonstate.edu');
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
@@ -70,6 +73,9 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
+CakePlugin::load('Utils');
+CakePlugin::load('Search');
+CakePlugin::load('Users');
 
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
