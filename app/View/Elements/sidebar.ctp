@@ -1,5 +1,13 @@
 <?php $action = $this->params['action']; ?>
 <div class="actions">
+        <h3><?php echo __('Search Bugs'); ?></h3>
+        <?php
+            echo $this->Form->create('Bug', array(
+            'url' => array_merge(array('controller'=>'bugs', 'action' => 'find'), $this->params['pass'])
+        ));
+        echo $this->Form->input('filter', array('label' => '', 'div' => 'false'));
+        echo $this->Form->submit(__('Search'));
+        ?>
         <h3><?php echo __('Navigation'); ?></h3>
             <ul>
                     <?php

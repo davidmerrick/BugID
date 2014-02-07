@@ -23,7 +23,7 @@
                     <?php
                         if($action != 'edit'){
                             echo '<li>';
-                                echo $this->Html->link(__('Edit Profile'), array('controller' => 'users', 'action' => 'edit', $logged_in_user['id'])); 
+                                echo $this->Html->link(__('Edit My Profile'), array('controller' => 'users', 'action' => 'edit', $logged_in_user['id'])); 
                             echo '</li>';
                         }
                         ?>

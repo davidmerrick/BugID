@@ -1,12 +1,13 @@
 <div class="bugs index">
 	<h2><?php echo __('Find Bugs'); ?></h2>
 	<?php
+        /*
         echo $this->Form->create('Bug', array(
             'url' => array_merge(array('action' => 'find'), $this->params['pass'])
         ));
-        echo $this->Form->input('filter', array('Label' => ''));
+        echo $this->Form->input('filter', array('label' => ''));
         echo $this->Form->submit(__('Search'));
-        echo $this->Form->end();
+         */
         ?>
         
         <table cellpadding="0" cellspacing="0">
