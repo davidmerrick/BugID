@@ -19,7 +19,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1 id="logo"><?php echo $this->Html->link(__($logotext), array('controller' => 'bugs', 'action' => 'index')); ?></h1>
+			<h1 id="logo"><?php echo $this->Html->link(__($logotext), array('plugin' => false, 'controller' => 'bugs', 'action' => 'index')); ?></h1>
                         <?php echo $this->element('loginbar'); ?>
 		</div>
 		<div id="content">

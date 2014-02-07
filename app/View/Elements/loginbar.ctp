@@ -16,7 +16,7 @@ echo '</div>';
             //Logged in
             echo '<ul>';
             echo '<li>';
-                echo $this->Html->link(__('Logout'), array('controller' => 'users', 'action' => 'logout'));
+                echo $this->Html->link(__('Logout'), array('controller' => 'users', 'plugin' => 'users', 'action' => 'logout'));
             echo '</li>';
             echo '<li>';
                 echo $this->Html->link('View Profile', array('controller' => 'users', 'action' => 'view', $user['id']));

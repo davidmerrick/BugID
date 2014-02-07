@@ -1,68 +1,68 @@
 <?php
-/**
- * Application level Controller
- *
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
 App::uses('Controller', 'Controller');
 
-/**
- * Application Controller
- *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
- *
- * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
- */
 class AppController extends Controller {
+
     public $components = array(
+                        'Cookie',
                         'DebugKit.Toolbar', 
                         'Session',
                         'Auth' => array(
                             'loginRedirect' => array(
-                            'controller' => 'bugs',
-                            'action' => 'mybugs'
-                        ),
-                        'logoutRedirect' => array(
-                            'controller' => 'pages',
-                            'action' => 'display',
-                            'home'
+                                'plugin' => false,
+                                'controller' => 'bugs',
+                                'action' => 'mybugs'
                         ),
                         'authorize' => array('Controller'),
+                        'Email',
+                        'RequestHandler',
                     )
         );
-
+    
+/**
+ * publically accessible controllers - all methods are allowed by all
+ */
+    public $publicControllers = array('pages');
+        
     public function beforeFilter() {
-        parent::beforeFilter();     
-        $this->Auth->allow('index', 'view');
-        $this->theme='BugID';       
-        $this->layout = 'default';
-    }
-   
-    public function isAuthorized($user) {
-        // Admin can access every action
-        if (isset($user['role']) && $user['role'] === 'admin') {
-            return true;
-        }
+            $this->theme='BugID';   
+            
+            //Setup Auth stuff
+            $this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
+            $this->Auth->loginError = __('Invalid e-mail/password combination. Please try again.', true);
+            $this->Auth->loginAction = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
+            $this->Auth->loginRedirect = array('controller' => 'bugs', 'action' => 'mybugs');
+            
+            $this->Auth->authorize = array('Controller');
+            if (in_array(strtolower($this->params['controller']), $this->publicControllers)) {
+                $this->Auth->allow('index', 'view');
+            }
 
-        // Default deny
-        return false;
+            $this->Cookie->name = 'BugIDRememberMe';
+            $this->Cookie->time = '1 Month';
+            $cookie = $this->Cookie->read('User');
+
+            if (!empty($cookie) && !$this->Auth->user()) {
+                    $data['User']['username'] = '';
+                    $data['User']['password'] = '';
+                    if (is_array($cookie)) {
+                            $data['User']['username'] = $cookie['username'];
+                            $data['User']['password'] = $cookie['password'];
+                    }
+                    if (!$this->Auth->login($data)) {
+                            $this->Cookie->destroy();
+                            $this->Auth->logout();
+                    }
+            }
+    }
+    
+    public function isAuthorized() {
+            if ($this->Auth->user() && $this->params['prefix'] != 'admin') {
+                    return true;
+            }
+            if ($this->params['prefix'] == 'admin' && $this->Auth->user('is_admin')) {
+                    return true;
+            }
+            return false;
     }
 }

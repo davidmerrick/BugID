@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model', 'Debugger', 'CakeLog');
  */
 class Bug extends AppModel {
     //Add search to Bug model
-    public $actsAs = array('Searchable');
+    public $actsAs = array('Search.Searchable');
     public $filterArgs = array(
         'filter' => array('type' => 'query', 'method' => 'orConditions')
     );

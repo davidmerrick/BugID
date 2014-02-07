@@ -23,7 +23,7 @@
 		<td><?php echo h($bug['Bug']['species_name']); ?>&nbsp;</td>
                 <td><?php echo h($bug['Bug']['specimen_code']); ?>&nbsp;</td>
 		<td><?php echo h($this->Time->nice($bug['Bug']['created'])); ?>&nbsp;</td>
-                <td><?php echo $this->Html->link(($bug['User']['nickname']), array('controller' => 'users', 'action' => 'view', $bug['Bug']['user_id'])); ?>&nbsp;</td>
+                <td><?php echo $this->Html->link(($bug['User']['username']), array('controller' => 'users', 'action' => 'view', $bug['Bug']['user_id'])); ?>&nbsp;</td>
                 <td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $bug['Bug']['bug_id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $bug['Bug']['bug_id'])); ?>
