@@ -64,6 +64,13 @@
 			<?php echo h($bug['Bug']['species_name']); ?>
 			&nbsp;
 		</dd>
+                <dt><?php echo __('Uploaded by'); ?></dt>
+		<dd>
+			<?php 
+                        echo $this->Html->link($bug['User']['nickname'], array('controller' => 'users', 'action' => 'view', $bug['User']['id'])); 
+                        ?>
+			&nbsp;
+		</dd>
 	</dl>
 </div>
 <?php

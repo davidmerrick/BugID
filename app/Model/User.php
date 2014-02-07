@@ -68,5 +68,12 @@ class User extends AppModel {
             break;
         }
         return $this->data[$this->name][$otherfield] === $this->data[$this->name][$fname];
-    } 
+    }
+    
+    public $hasMany = array(
+            'Bug' => array(
+                'className' => 'Bug',
+                'foreignKey' => 'user_id'
+             )
+        );
 }

@@ -2,10 +2,19 @@
 // app/Controller/UsersController.php
 class UsersController extends AppController {
 
+    var $uses = array('Bug', 'User'); // both models will be available
+    
+    /**
+     * Components
+     *
+     * @var array
+     */
+    public $components = array('Paginator');
+    
     public function beforeFilter() {
-        // Allow users to register and logout.
+        // Allow users to register, logout, view bugs others have uploaded.
         parent::beforeFilter();
-        $this->Auth->allow('add', 'logout');
+        $this->Auth->allow('add', 'logout', 'viewbugs');
     }
 
     public function index() {
@@ -18,6 +27,23 @@ class UsersController extends AppController {
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
+        $this->set('user', $this->User->read(null, $id));
+    }
+    
+    //Custom view of the bugs a certain user has uploaded
+    public function viewbugs($id = null) {
+        $this->User->id = $id;
+        if (!$this->User->exists()) {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        $this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
+        	
+        //Do a custom pagination query for bugs belonging to user
+        $this->Paginator->settings = array(
+            'conditions' => array('Bug.user_id' => $id)
+        );
+        $bugs = $this->Paginator->paginate();
+        $this->set(compact('bugs'));
         $this->set('user', $this->User->read(null, $id));
     }
 
