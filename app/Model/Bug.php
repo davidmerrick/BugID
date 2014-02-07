@@ -8,17 +8,25 @@ class Bug extends AppModel {
     //Add search to Bug model
     public $actsAs = array('Searchable');
     public $filterArgs = array(
-        'specimen_code' => array('type' => 'like'),
-        'filter' => array('type' => 'query', 'method' => 'orConditions'),
-        'enhanced_search' => array('type' => 'like', 'encode' => true, 'before' => false, 'after' => false, 'field' => array('ThisModel.name', 'OtherModel.name'))
+        'filter' => array('type' => 'query', 'method' => 'orConditions')
     );
 
     public function orConditions($data = array()) {
         $filter = $data['filter'];
         $cond = array(
             'OR' => array(
+                $this->alias . '.bug_size LIKE' => '%' . $filter . '%',
+                $this->alias . '.specimen_code LIKE' => '%' . $filter . '%',
                 $this->alias . '.lab_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.river LIKE' => '%' . $filter . '%',
+                $this->alias . '.state LIKE' => '%' . $filter . '%',
+                $this->alias . '.country LIKE' => '%' . $filter . '%',
                 $this->alias . '.collector_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.researcher_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.latitude LIKE' => '%' . $filter . '%',
+                $this->alias . '.longitude LIKE' => '%' . $filter . '%',
+                $this->alias . '.species_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.created LIKE' => '%' . $filter . '%',
             ));
         return $cond;
     }

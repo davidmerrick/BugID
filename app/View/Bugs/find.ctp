@@ -4,8 +4,8 @@
         echo $this->Form->create('Bug', array(
             'url' => array_merge(array('action' => 'find'), $this->params['pass'])
         ));
-        echo $this->Form->input('specimen_code', array('div' => false));
-        echo $this->Form->submit(__('Search'), array('div' => false));
+        echo $this->Form->input('filter', array('Label' => ''));
+        echo $this->Form->submit(__('Search'));
         echo $this->Form->end();
         ?>
         

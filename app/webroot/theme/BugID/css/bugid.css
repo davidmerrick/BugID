@@ -79,10 +79,20 @@ p {
 
 #loginbar{
     float:right;
+    padding: 0px 30px;
+}
+
+#loginbar h1{
+    padding:none;
+}
+
+#loginbar:hover, #loginbar h1:hover {
+    background-color:#ADD8E6;
+    cursor:pointer;
 }
 
 #header{
-	padding: 10px 20px;
+	padding: 0px 0px;
 }
 #header h1 {
 	background:#3B5998;

@@ -235,7 +235,7 @@ class PrgComponent extends Component {
  * @return array
  */
 	public function serializeParams(array &$data) {
-		foreach ($this->controller->presetVars as $field) {
+                foreach ($this->controller->presetVars as $field) {
 			if ($field['type'] === 'checkbox') {
 				if (array_key_exists($field['field'], $data)) {
 					$values = join('|', (array)$data[$field['field']]);
