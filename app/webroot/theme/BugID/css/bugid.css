@@ -3,7 +3,8 @@
  *
  * Custom CSS for BugID web interface
  *
- * The background color is #003d4c and is found in the header h1 tag and the body tag
+ * The background color is #3B5998 and is found in the header h1 tag and the body tag
+ * Light blue color is #ADD8E6
  */
 
 * {
@@ -67,7 +68,6 @@ p {
 	text-align: left;
 }
 
-
 /* header */
 #logo {
     float:left;
@@ -89,6 +89,7 @@ p {
 
 #loginbar{
     float:right;
+    width: 400px;
 }
 
 #loginbar h1{
@@ -97,8 +98,20 @@ p {
 }
 
 #loginbar:hover, #loginbar h1:hover {
-    background-color:#ADD8E6;
     cursor:pointer;
+}
+
+#loginbar-popover {
+    background-color: #3B5998;
+    display:block;
+    position: absolute;
+    right: 0px;
+    top: 25px;
+    width: 400px;
+}
+
+#loginbar-popover form .input{
+    color: white;
 }
 
 #header{
