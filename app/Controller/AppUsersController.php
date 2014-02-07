@@ -15,9 +15,11 @@ class AppUsersController extends UsersController {
             $this->Auth->loginRedirect = array(
                 'plugin' => null,
                 'admin' => false,
-                'controller' => 'app_users',
-                'action' => 'login'
+                'controller' => 'bugs',
+                'action' => 'mybugs'
             );
+            $this->Auth->loginAction = array('controller' => 'app_users', 'action' => 'login');
+            $this->Auth->logoutRedirect = $this->Auth->loginAction;
         }
         
 	public function render($view = null, $layout = null) {

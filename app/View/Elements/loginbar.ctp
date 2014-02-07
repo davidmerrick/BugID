@@ -16,7 +16,7 @@ echo '</div>';
             //Logged in
             echo '<ul>';
             echo '<li>';
-                echo $this->Html->link(__('Logout'), array('controller' => 'users', 'plugin' => 'users', 'action' => 'logout'));
+                echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'plugin' => null, 'action' => 'logout'));
             echo '</li>';
             echo '<li>';
                 echo $this->Html->link('View Profile', array('controller' => 'users', 'action' => 'view', $user['id']));
@@ -25,11 +25,11 @@ echo '</div>';
                 echo $this->Html->link('Edit Profile', array('controller' => 'users', 'action' => 'edit', $user['id']));
             echo '</li>';
             echo '<li>';
-            echo $this->Html->link('View my bugs', array('controller' => 'users', 'action' => 'mybugs'));
+            echo $this->Html->link('View my bugs', array('controller' => 'bugs', 'plugin' => null, 'action' => 'mybugs'));
             echo '</li>';
             echo '</ul>';
         } else {
-            echo $this->Form->create('User', array('plugin' => 'users', 'action' => 'login', 'id' => 'LoginForm'));
+            echo $this->Form->create('User', array('plugin' => null, 'controller' => 'app_users', 'action' => 'login', 'id' => 'LoginForm'));
             echo $this->Form->input('email', array('label' => __d('users', 'Email')));
             echo $this->Form->input('password',  array('label' => __d('users', 'Password')));
             echo $this->Html->link(__d('users', 'I forgot my password'), array('action' => 'reset_password'));

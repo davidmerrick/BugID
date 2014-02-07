@@ -8,7 +8,7 @@ App::uses('AppController', 'Controller');
  */
 class BugsController extends AppController {
         
-        public $components = array('Paginator', 'Prg');
+        public $components = array('Paginator', 'Search.Prg');
         public $presetVars = true; // using the model configuration
         
         public function find() {

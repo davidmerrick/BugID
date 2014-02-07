@@ -9,7 +9,6 @@ class AppController extends Controller {
                         'Session',
                         'Auth' => array(
                             'loginRedirect' => array(
-                                'plugin' => false,
                                 'controller' => 'bugs',
                                 'action' => 'mybugs'
                         ),
@@ -30,7 +29,7 @@ class AppController extends Controller {
             //Setup Auth stuff
             $this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
             $this->Auth->loginError = __('Invalid e-mail/password combination. Please try again.', true);
-            $this->Auth->loginAction = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
+            $this->Auth->loginAction = array('controller' => 'app_users', 'action' => 'login');
             $this->Auth->loginRedirect = array('controller' => 'bugs', 'action' => 'mybugs');
             
             $this->Auth->authorize = array('Controller');
