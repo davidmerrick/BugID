@@ -3,6 +3,9 @@
     <fieldset>
         <legend><?php echo __('Edit User'); ?></legend>
         <?php 
+        echo $this->Form->input('first_name');
+        echo $this->Form->input('last_name');
+        echo $this->Form->input('university', array('label' => 'University Affiliation'));
         echo $this->Form->input('username', array('label' => 'E-mail address'));
         echo $this->Form->input('nickname', array('label' => 'Username'));
         echo $this->Form->input('password');
@@ -14,3 +17,4 @@
     </fieldset>
 <?php echo $this->Form->end(__('Update')); ?>
 </div>
+<?php echo $this->Element('sidebar_users'); ?>
