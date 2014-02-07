@@ -34,4 +34,24 @@ class AppUsersController extends UsersController {
 		}
 		return parent::render($view, $layout);
 	}
+        
+        /*
+        public function edit($id = null) {
+		if (!$this->AppUser->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+                        if ($this->AppUser->save($this->request->data)) {
+                                $this->Session->setFlash(__('User info has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('User info could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('User.' . $this->AppUser->primaryKey => $id));
+			$this->request->data = $this->AppUser->find('first', $options);
+		}
+	}
+         *
+         */
 }

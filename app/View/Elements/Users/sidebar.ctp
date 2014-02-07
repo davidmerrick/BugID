@@ -1,18 +1,37 @@
+<?php $action = $this->params['action']; ?>
 <div class="actions">
-	<ul>
+        <h3><?php echo __('Actions'); ?></h3>
+            <ul>
 		<?php if (!$this->Session->read('Auth.User.id')) : ?>
-			<li><?php echo $this->Html->link(__d('users', 'Login'), array('plugin' => null, 'controller' => 'app_users', 'action' => 'login')); ?></li>
+			<li><?php echo $this->Html->link(__('Login'), array('controller' => 'app_users', 'action' => 'login')); ?></li>
             <?php if (!empty($allowRegistration) && $allowRegistration)  : ?>
-			<li><?php echo $this->Html->link(__d('users', 'Register an account'), array('action' => 'add')); ?></li>
+			<li><?php echo $this->Html->link(__('Register an account'), array('controller' => 'app_users', 'action' => 'add')); ?></li>
             <?php endif; ?>
 		<?php else : ?>
-			<li><?php echo $this->Html->link(__d('users', 'Logout'), array('plugin' => null, 'controller' => 'app_users', 'action' => 'logout')); ?>
-			<li><?php echo $this->Html->link(__d('users', 'My Account'), array('action' => 'edit')); ?>
-			<li><?php echo $this->Html->link(__d('users', 'Change password'), array('action' => 'change_password')); ?>
+			<li><?php echo $this->Html->link(__('View Profile'), array('controller' => 'app_users', 'action' => 'view', $this->Session->read('Auth.User.id'))); ?>
+                        <li><?php echo $this->Html->link(__('Edit Profile'), array('controller' => 'app_users', 'action' => 'edit')); ?>
+			<li><?php echo $this->Html->link(__('Change password'), array('controller' => 'app_users', 'action' => 'change_password')); ?>
+                        <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'action' => 'logout')); ?>
 		<?php endif ?>
 		<?php if($this->Session->read('Auth.User.is_admin')) : ?>
             <li>&nbsp;</li>
-            <li><?php echo $this->Html->link(__d('users', 'List Users'), array('action'=>'index'));?></li>
+            <li><?php echo $this->Html->link(__('List Users'), array('action'=>'index'));?></li>
         <?php endif; ?>
 	</ul>
+        <h3><?php echo __('Navigation'); ?></h3>
+            <ul>
+                    <?php
+                        if($action != 'mybugs'){
+                            echo '<li>';
+                                echo $this->Html->link(__('My Bugs'), array('controller' => 'bugs', 'action' => 'mybugs')); 
+                            echo '</li>';
+                        }
+                        if($action != 'index'){
+                            echo '<li>';
+                                echo $this->Html->link(__('All Bugs'), array('controller' => 'bugs', 'action' => 'index')); 
+                            echo '</li>';
+                        }
+                        ?>
+                </li>
+            </ul>    
 </div>
