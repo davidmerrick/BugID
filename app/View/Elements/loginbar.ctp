@@ -29,11 +29,12 @@ echo '</div>';
             echo '</li>';
             echo '</ul>';
         } else {
-            echo $this->Form->create('User', array('controller'=>'user', 'action'=>'login')); 
-            echo $this->Form->input('username', array('label' => 'E-mail address'));
-            echo $this->Form->input('password');
-            echo $this->Form->end(__('Login'));
-            echo $this->Html->link(__('Register for an account'), array('controller' => 'users', 'action' => 'add'));
+            echo $this->Form->create('User', array('plugin' => 'users', 'action' => 'login', 'id' => 'LoginForm'));
+            echo $this->Form->input('email', array('label' => __d('users', 'Email')));
+            echo $this->Form->input('password',  array('label' => __d('users', 'Password')));
+            echo $this->Html->link(__d('users', 'I forgot my password'), array('action' => 'reset_password'));
+            //echo $this->Form->hidden('User.return_to', array('value' => $return_to));
+            echo $this->Form->end(__d('users', 'Submit'));
         }
     ?>
 </div>
