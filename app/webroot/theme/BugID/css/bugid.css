@@ -77,13 +77,23 @@ p {
     text-decoration:none !important;
 }
 
+.triangle-down {
+    float: left;
+    margin-top: 5px;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: #ffffff transparent transparent transparent;
+}
+
 #loginbar{
     float:right;
-    padding: 0px 30px;
 }
 
 #loginbar h1{
-    padding:none;
+    margin: 0px;
+    padding-bottom: 10px !important;
 }
 
 #loginbar:hover, #loginbar h1:hover {

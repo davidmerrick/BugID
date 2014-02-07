@@ -12,6 +12,8 @@
 		echo $this->Html->css('bugid');
                 echo $this->fetch('css');
                 echo $this->fetch('script');
+                echo $this->Html->script('jquery');
+                echo $this->Html->script('bugid');
 	?>
 </head>
 <body>
