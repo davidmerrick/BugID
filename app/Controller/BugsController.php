@@ -7,30 +7,25 @@ App::uses('AppController', 'Controller');
  * @property PaginatorComponent $Paginator
  */
 class BugsController extends AppController {
-
-/**
- * Components
- *
- * @var array
- */
-	public $components = array('Paginator');
-
-/**
- * index method
- *
- * @return void
- */
+        
+        public $components = array('Paginator', 'Prg');
+        public $presetVars = true; // using the model configuration
+        
+        public function find() {
+            $this->set('title_for_layout', 'Find Bugs'); //Sets page title
+            $this->Prg->commonProcess();
+            $this->Paginator->settings['conditions'] = $this->Bug->parseCriteria($this->Prg->parsedParams());
+            $this->set('bugs', $this->Paginator->paginate());
+        }
+        
 	public function index() {
 		//Set recursive to 1 to retrieve users associated with the bug
                 $this->Bug->recursive = 1;
                 $this->set('title_for_layout', 'All Bugs'); //Sets page title
 		$this->set('bugs', $this->Paginator->paginate());
 	}
-/**
- * Shows a list of bugs user has uploaded
- *
- * @return void
- */
+        
+        //Shows a list of bugs user has uploaded
 	public function mybugs() {
                 $this->set('title_for_layout', 'My Bugs'); //Sets page title
 		
@@ -57,11 +52,6 @@ class BugsController extends AppController {
 		$this->set('bug', $this->Bug->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->request->data['Bug']['user_id'] = $this->Auth->user('id');
@@ -80,14 +70,7 @@ class BugsController extends AppController {
 			}
 		}
 	}
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+        
 	public function edit($id = null) {
 		if (!$this->Bug->exists($id)) {
 			throw new NotFoundException(__('Invalid bug'));
@@ -124,13 +107,6 @@ class BugsController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$this->Bug->id = $id;
 		if (!$this->Bug->exists()) {
@@ -145,23 +121,11 @@ class BugsController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-/**
- * admin_index method
- *
- * @return void
- */
 	public function admin_index() {
 		$this->Bug->recursive = 0;
 		$this->set('bugs', $this->Paginator->paginate());
 	}
 
-/**
- * admin_view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function admin_view($id = null) {
 		if (!$this->Bug->exists($id)) {
 			throw new NotFoundException(__('Invalid bug'));
@@ -233,8 +197,8 @@ class BugsController extends AppController {
 	}
         
         public function isAuthorized($user) {
-            // All registered users can add posts and view their own bugs
-            if ($this->action === 'add' || $this->action === 'mybugs') {
+            // All registered users can add, find, and view their own bugs
+            if ($this->action === 'add' || $this->action === 'mybugs' || $this->action === 'find') {
                 return true;
             }
             

@@ -5,26 +5,27 @@ App::uses('AppModel', 'Model', 'Debugger', 'CakeLog');
  *
  */
 class Bug extends AppModel {
+    //Add search to Bug model
+    public $actsAs = array('Searchable');
+    public $filterArgs = array(
+        'specimen_code' => array('type' => 'like'),
+        'filter' => array('type' => 'query', 'method' => 'orConditions'),
+        'enhanced_search' => array('type' => 'like', 'encode' => true, 'before' => false, 'after' => false, 'field' => array('ThisModel.name', 'OtherModel.name'))
+    );
+
+    public function orConditions($data = array()) {
+        $filter = $data['filter'];
+        $cond = array(
+            'OR' => array(
+                $this->alias . '.lab_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.collector_name LIKE' => '%' . $filter . '%',
+            ));
+        return $cond;
+    }
     
-/**
- * Primary key field
- *
- * @var string
- */
-	public $primaryKey = 'bug_id';
+    public $primaryKey = 'bug_id';
+    public $displayField = 'species_name';
 
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'species_name';
-
-/**
- * Validation rules
- *
- * @var array
- */
         //For storing info before delete
         private $info;
         
