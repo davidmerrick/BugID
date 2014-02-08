@@ -5,7 +5,7 @@
 		<dd>
                     <?php 
 			if($bug['Bug']['bug_photo']){
-				echo $this->Html->image($bug['Bug']['bug_photo']);
+				echo $this->Html->image($bug['Bug']['bug_photo'], array('class' => 'bug_photo'));
 			} 
 			?>
 		</dd>
@@ -31,7 +31,7 @@
 		</dd>
 		<dt><?php echo __('State'); ?></dt>
 		<dd>
-			<?php echo h(strtoupper($bug['Bug']['state'])); ?>
+			<?php echo h($bug['Bug']['state']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Country'); ?></dt>

@@ -20,6 +20,11 @@ body {
 	font-size:90%;
 	margin: 0;
 }
+
+.bug_photo{
+    max-width: 700px;
+}
+
 a {
 	color: #003d4c;
 	text-decoration: underline;

@@ -5,7 +5,7 @@
 	
            <?php
                 //Don't allow them to upload a new image or change the classification
-                echo $this->Html->image($this->data['Bug']['bug_photo']);
+                echo $this->Html->image($this->data['Bug']['bug_photo'], array('class' => 'bug_photo'));
                 if(!empty($this->data['Bug']['species_name'])){
                     echo "<h2>Classification: " . $this->data['Bug']['species_name'] . "</h2>";
                 } else {

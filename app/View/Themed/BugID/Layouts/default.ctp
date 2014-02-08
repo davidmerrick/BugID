@@ -29,6 +29,6 @@
 		<div id="footer">
 		</div>
 	</div>
-        <?php echo $this->element('sql_dump'); ?>
+        <?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>
