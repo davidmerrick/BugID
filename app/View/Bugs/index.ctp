@@ -1,6 +1,4 @@
-<?php
-$user = $this->Session->read('Auth.User');
-?>
+<?php $user = $this->Session->read('Auth.User'); ?>
 <div class="bugs index">
 	<h2><?php echo __('All Bugs'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
@@ -17,15 +15,7 @@ $user = $this->Session->read('Auth.User');
                 <td><?php echo h($bug['Bug']['specimen_code']); ?>&nbsp;</td>
 		<td><?php echo h($this->Time->nice($bug['Bug']['created'])); ?>&nbsp;</td>
                 <td><?php echo $this->Html->link(($bug['User']['username']), array('controller' => 'app_users', 'action' => 'view', $bug['Bug']['user_id'])); ?>&nbsp;</td>
-                <td class="actions">
-			<?php 
-                        echo $this->Html->link(__('View'), array('action' => 'view', $bug['Bug']['bug_id']));
-			if($bug['User']['username'] == $user['username']){
-                            echo $this->Html->link(__('Edit'), array('action' => 'edit', $bug['Bug']['bug_id']));
-                            echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $bug['Bug']['bug_id']), null, __('Are you sure you want to delete # %s?', $bug['Bug']['bug_id']));
-                        }
-                        ?>
-		</td>
+                <td><?php echo $this->Element('Bugs/action_index', array('bug' => $bug, 'user' => $user));?></td>
 	</tr>
 <?php endforeach; ?>
 	</table>

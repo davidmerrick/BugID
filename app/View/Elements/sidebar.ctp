@@ -45,7 +45,7 @@ $user = $this->Session->read('Auth.User');
                         }
                         if($action == 'edit' || $action == 'view'){
                             echo '<li>';    
-                            echo $this->Form->postLink(__('Delete Bug'), array('action' => 'delete', $this->Form->value('Bug.bug_id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Bug.bug_id')));
+                            echo $this->Form->submit(__('Delete Bug'), array('action' => 'delete', $this->Form->value('Bug.bug_id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Bug.bug_id')));
                             echo '</li>';                            
                         }
                     }
