@@ -25,7 +25,7 @@ class BugsController extends AppController {
 		$this->set('bugs', $this->Paginator->paginate());
 	}
         
-        //Shows a list of bugs user has uploaded
+        //Shows a list of bugs current user has uploaded
 	public function mybugs() {
                 $this->set('title_for_layout', 'My Bugs'); //Sets page title
 		

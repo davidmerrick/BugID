@@ -1,5 +1,5 @@
 <?php
-App::uses('UsersController', 'Users.Controller');
+App::uses('UsersController', 'Users.Controller', 'Bugs');
 class AppUsersController extends UsersController {
 
         public $name = 'AppUsers';
@@ -63,5 +63,15 @@ class AppUsersController extends UsersController {
 			$this->Session->setFlash($e->getMessage());
 			$this->redirect('/');
 		}            
+        }
+        
+        //Custom view of the bugs a certain user has uploaded
+        public function viewbugs($id = null) {
+            try {
+                    $this->set('bugs', $this->{$this->modelClass}->viewbugs($id));
+            } catch (Exception $e) {
+                    $this->Session->setFlash($e->getMessage());
+                    $this->redirect('/');
+            }
         }
 }

@@ -1,10 +1,8 @@
 <?php
 App::uses('AppModel', 'Model', 'Debugger', 'CakeLog');
-/**
- * Bug Model
- *
- */
+
 class Bug extends AppModel {
+    var $uses = array('User');
     //Add search to Bug model
     public $actsAs = array('Search.Searchable');
     public $filterArgs = array(
@@ -27,6 +25,8 @@ class Bug extends AppModel {
                 $this->alias . '.longitude LIKE' => '%' . $filter . '%',
                 $this->alias . '.species_name LIKE' => '%' . $filter . '%',
                 $this->alias . '.created LIKE' => '%' . $filter . '%',
+                'User.username LIKE' => '%' . $filter . '%',
+                'User.email LIKE' => '%' . $filter . '%',
             ));
         return $cond;
     }
