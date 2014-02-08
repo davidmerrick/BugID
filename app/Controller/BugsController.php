@@ -64,7 +64,7 @@ class BugsController extends AppController {
                          */
                         if ($this->Bug->save($data)) {
 				$this->Session->setFlash(__('The bug has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'view', $this->Bug->id));
 			} else {
 				$this->Session->setFlash(__('The bug could not be saved. Please, try again.'));
 			}
