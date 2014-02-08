@@ -1,9 +1,11 @@
 <?php
-App::uses('UsersController', 'Users.Controller', 'Bugs');
+App::uses('UsersController', 'Users.Controller');
+//App::import('Bug');
 class AppUsersController extends UsersController {
 
         public $name = 'AppUsers';
-    
+        //public $uses = array('Bug', 'UsersAppModel', 'Users.Model'); //All models will be available
+        
 	public function beforeFilter() {
             parent::beforeFilter();
             $this->User = ClassRegistry::init('AppUser');
@@ -64,14 +66,21 @@ class AppUsersController extends UsersController {
 			$this->redirect('/');
 		}            
         }
-        
+       
         //Custom view of the bugs a certain user has uploaded
         public function viewbugs($id = null) {
-            try {
-                    $this->set('bugs', $this->{$this->modelClass}->viewbugs($id));
-            } catch (Exception $e) {
-                    $this->Session->setFlash($e->getMessage());
-                    $this->redirect('/');
+            $this->{$this->modelClass}->id = $id;
+            if (!$this->{$this->modelClass}->exists()) {
+                throw new NotFoundException(__('Invalid user'));
             }
+            $this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
+
+            //Do a custom pagination query for bugs belonging to user
+            $this->Paginator->settings = array(
+                'conditions' => array('Bug.user_id' => $id)
+            );
+            $bugs = $this->Paginator->paginate();
+            $this->set(compact('bugs'));
+            $this->set('user', $this->modelClass->read(null, $id));
         }
 }

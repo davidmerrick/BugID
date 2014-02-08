@@ -37,7 +37,7 @@ class User extends UsersAppModel {
 	public $findMethods = array(
 		'search' => true
 	);
-
+        
 /**
  * All search fields need to be configured in the Model::filterArgs array.
  *
