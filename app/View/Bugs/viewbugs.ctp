@@ -1,12 +1,11 @@
 <?php $user = $this->Session->read('Auth.User'); ?>
 <div class="bugs index">
-	<h2><?php echo __('All Bugs'); ?></h2>
+	<h2><?php echo $this->Html->link((ucfirst($bugs[0]['User']['username']) . '\'s Bugs'), array('controller' => 'app_users', 'action' => 'view', $bugs[0]['Bug']['user_id'])); ?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('species_name'); ?></th>
                         <th><?php echo $this->Paginator->sort('specimen_code'); ?></th>
 			<th><?php echo $this->Paginator->sort('created', 'Date Uploaded'); ?></th>
-                        <th><?php echo $this->Paginator->sort('user_id', 'User'); ?></th>
                         <th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($bugs as $bug): ?>
@@ -14,7 +13,6 @@
 		<td><?php echo h($bug['Bug']['species_name']); ?>&nbsp;</td>
                 <td><?php echo h($bug['Bug']['specimen_code']); ?>&nbsp;</td>
 		<td><?php echo h($this->Time->nice($bug['Bug']['created'])); ?>&nbsp;</td>
-                <td><?php echo $this->Html->link(($bug['User']['username']), array('controller' => 'app_users', 'action' => 'view', $bug['Bug']['user_id'])); ?>&nbsp;</td>
                 <td><?php echo $this->Element('Bugs/action_index', array('bug' => $bug, 'user' => $user));?></td>
 	</tr>
 <?php endforeach; ?>
@@ -34,5 +32,5 @@
 	</div>
 </div>
 <?php 
-echo $this->Element('sidebar');
+echo $this->Element('Users/sidebar');
 ?>
