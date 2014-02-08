@@ -18,6 +18,8 @@
             <li><?php echo $this->Html->link(__('List Users'), array('action'=>'index'));?></li>
         <?php endif; ?>
 	</ul>
+        
+        <?php if ($this->Session->read('Auth.User.id')) : ?>
         <h3><?php echo __('Navigation'); ?></h3>
             <ul>
                     <?php
@@ -34,4 +36,5 @@
                         ?>
                 </li>
             </ul>    
+            <?php endif; ?>
 </div>

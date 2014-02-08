@@ -67,7 +67,7 @@
                 <dt><?php echo __('Uploaded by'); ?></dt>
 		<dd>
 			<?php 
-                        echo $this->Html->link($bug['User']['username'], array('controller' => 'users', 'plugin' => 'users', 'action' => 'view', $bug['User']['id'])); 
+                        echo $this->Html->link($bug['User']['username'], array('controller' => 'app_users', 'action' => 'view', $bug['User']['id'])); 
                         ?>
 			&nbsp;
 		</dd>

@@ -1,4 +1,7 @@
-<?php $action = $this->params['action']; ?>
+<?php 
+$action = $this->params['action']; 
+$is_logged_in = $this->Session->read('Auth.User.id');
+?>
 <div class="actions">
         <h3><?php echo __('Search Bugs'); ?></h3>
         <?php
@@ -8,6 +11,7 @@
         echo $this->Form->input('filter', array('label' => '', 'div' => 'false'));
         echo $this->Form->submit(__('Search'));
         ?>
+        
         <h3><?php echo __('Navigation'); ?></h3>
             <ul>
                     <?php

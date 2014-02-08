@@ -25,6 +25,9 @@ class AppController extends Controller {
         
     public function beforeFilter() {
             $this->theme='BugID';   
+           
+            //Allow viewing indexes and views by everyone
+            $this->Auth->allow('index', 'view');
             
             //Setup Auth stuff
             $this->Auth->authError = __('Sorry, but you need to login to access this location.', true);
@@ -33,8 +36,9 @@ class AppController extends Controller {
             $this->Auth->loginRedirect = array('controller' => 'bugs', 'action' => 'mybugs');
             
             $this->Auth->authorize = array('Controller');
+            
             if (in_array(strtolower($this->params['controller']), $this->publicControllers)) {
-                $this->Auth->allow('index', 'view');
+                $this->Auth->allow();
             }
 
             $this->Cookie->name = 'BugIDRememberMe';

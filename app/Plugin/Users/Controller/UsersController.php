@@ -271,8 +271,8 @@ class UsersController extends UsersAppController {
  * @param string $id User ID
  * @return void
  */
-	public function edit() {
-		// @todo replace this with something better than the user details that were removed
+	public function edit($id = null) {
+		//This never did anything
 	}
 
 /**

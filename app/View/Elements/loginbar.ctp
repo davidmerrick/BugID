@@ -1,5 +1,8 @@
 <?php 
 $user = $this->Session->read('Auth.User');
+$action = $this->params['action']; 
+
+if($action != 'login') : 
 echo '<div id="loginbar">';
     echo '<div class="triangle-down"></div>';
     if(!empty($user)) {
@@ -29,12 +32,15 @@ echo '</div>';
             echo '</li>';
             echo '</ul>';
         } else {
-            echo $this->Form->create('User', array('controller' => 'app_users', 'action' => 'login', 'id' => 'LoginForm'));
-            echo $this->Form->input('email', array('label' => __d('app_users', 'Email')));
-            echo $this->Form->input('password',  array('label' => __d('app_users', 'Password')));
-            echo $this->Html->link(__d('app_users', 'I forgot my password'), array('action' => 'reset_password'));
+            $model = 'AppUser';
+            echo $this->Form->create($model, array('controller' => 'app_users', 'action' => 'login', 'id' => 'LoginForm'));
+            echo $this->Form->input('email', array('label' => __('Email')));
+            echo $this->Form->input('password',  array('label' => __('Password')));
+            echo '<p>' . $this->Form->input('remember_me', array('type' => 'checkbox', 'label' =>  __('Remember Me'))) . '</p>';
+            echo '<p>' . $this->Html->link(__('I forgot my password'), array('controller' => 'app_users', 'action' => 'reset_password')) . '</p>';
             //echo $this->Form->hidden('User.return_to', array('value' => $return_to));
-            echo $this->Form->end('Submit');
+            echo $this->Form->end(__('Submit'));
         }
     ?>
 </div>
+<?php endif; ?>
