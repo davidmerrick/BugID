@@ -24,7 +24,7 @@ $myuser = $this->Session->read('Auth.User');
                             }
                             if($action != 'viewbugs' && isset($user) && $user['username'] != $myuser['username']){
                                 echo '<li>';
-                                echo $this->Html->link(__('View this User\'s Bugs'), array('controller' => 'app_users', 'action' => 'viewbugs', $user['id']));
+                                echo $this->Html->link(__('View this User\'s Bugs'), array('controller' => 'bugs', 'action' => 'viewbugs', $user['id']));
                                 echo '</li>';
                             }
                             //Only show edit profile options when we're viewing our own

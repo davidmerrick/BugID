@@ -10,6 +10,7 @@ class BugsController extends AppController {
         
         public $components = array('Paginator', 'Search.Prg');
         public $presetVars = true; // using the model configuration
+        public $uses = array('Bug', 'User');
         
         public function find() {
             $this->set('title_for_layout', 'Find Bugs'); //Sets page title
@@ -52,6 +53,16 @@ class BugsController extends AppController {
 		$this->set('bug', $this->Bug->find('first', $options));
 	}
 
+        public function viewbugs($userId = null) {
+		$this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
+                //Do a custom pagination query for bugs belonging to user
+                $this->Paginator->settings = array(
+                    'conditions' => array('Bug.user_id' => $userId)
+                );
+                $bugs = $this->Paginator->paginate();
+                $this->set(compact('bugs'));
+	}
+        
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->request->data['Bug']['user_id'] = $this->Auth->user('id');
