@@ -3,7 +3,7 @@
 	<?php echo $this->Session->flash('auth');?>
 	<fieldset>
 		<?php
-                        echo $this->Form->create($model, array('controller' => 'app_users', 'action' => 'login', 'id' => 'LoginForm'));
+                        echo $this->Form->create($model, array('controller' => 'app_users', 'action' => 'login'));
 			echo $this->Form->input('email', array('label' => __('Email')));
 			echo $this->Form->input('password',  array('label' => __('Password')));
 			echo '<p>' . $this->Form->input('remember_me', array('type' => 'checkbox', 'label' =>  __('Remember Me'))) . '</p>';
