@@ -1,4 +1,10 @@
-<?php $action = $this->params['action']; ?>
+<?php 
+$action = $this->params['action']; 
+$is_logged_in = $this->Session->read('Auth.User.id');
+
+//$myuser is currently logged-in user, $user is one passed in from view
+$myuser = $this->Session->read('Auth.User');
+?>
 <div class="actions">
         <h3><?php echo __('Actions'); ?></h3>
             <ul>
@@ -8,10 +14,30 @@
 			<li><?php echo $this->Html->link(__('Register an account'), array('controller' => 'app_users', 'action' => 'add')); ?></li>
             <?php endif; ?>
 		<?php else : ?>
-			<li><?php echo $this->Html->link(__('View Profile'), array('controller' => 'app_users', 'action' => 'view', $this->Session->read('Auth.User.id'))); ?>
-                        <li><?php echo $this->Html->link(__('Edit Profile'), array('controller' => 'app_users', 'action' => 'edit', $this->Session->read('Auth.User.id'))); ?>
-			<li><?php echo $this->Html->link(__('Change password'), array('controller' => 'app_users', 'action' => 'change_password')); ?>
-                        <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'action' => 'logout')); ?>
+			<?php 
+                            //If we're viewing someone else's profile and not viewing our own,
+                            //add a link to view our own.
+                            if($action != 'view' || isset($user) && $user['username'] != $myuser['username']){
+                                echo '<li>';
+                                echo $this->Html->link(__('View My Profile'), array('controller' => 'app_users', 'action' => 'view', $this->Session->read('Auth.User.id')));
+                                echo '</li>';
+                            }
+                            if(isset($user) && $user['username'] == $myuser['username']){
+                                if($action != 'edit'){
+                                    echo '<li>';
+                                    echo $this->Html->link(__('Edit Profile'), array('controller' => 'app_users', 'action' => 'edit', $this->Session->read('Auth.User.id')));
+                                    echo '</li>';
+                                }
+                                if($action != 'change_password'){
+                                    echo '<li>';
+                                    echo $this->Html->link(__('Change password'), array('controller' => 'app_users', 'action' => 'change_password')); 
+                                    echo '</li>';
+                                }
+                            }
+                            echo '<li>';
+                            echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'action' => 'logout'));
+                            echo '</li>';
+                           ?>
 		<?php endif ?>
 		<?php if($this->Session->read('Auth.User.is_admin')) : ?>
             <li>&nbsp;</li>

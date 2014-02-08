@@ -202,7 +202,7 @@ class BugsController extends AppController {
                 return true;
             }
             
-            // The owner of a post can edit and delete it
+            // The owner of a bug can edit and delete it
             if (in_array($this->action, array('edit', 'delete'))) {
                 $bugId = $this->request->params['pass'][0];
                 if ($this->Bug->isOwnedBy($bugId, $user['id'])) {

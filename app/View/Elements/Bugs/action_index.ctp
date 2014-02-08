@@ -4,6 +4,6 @@ if($bug['User']['username'] == $user['username']){
     echo ' ';
     echo $this->Html->link(__('Edit'), array('action' => 'edit', $bug['Bug']['bug_id']));
     echo ' ';
-    echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $bug['Bug']['bug_id']), null, __('Are you sure you want to delete # %s?', $bug['Bug']['bug_id']));
+    echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $bug['Bug']['bug_id']), null, __('Are you sure you want to delete this bug?', $bug['Bug']['bug_id']));
 }
 

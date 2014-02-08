@@ -10,7 +10,7 @@ $user = $this->Session->read('Auth.User');
             'url' => array_merge(array('controller'=>'bugs', 'action' => 'find'), $this->params['pass'])
         ));
         echo $this->Form->input('filter', array('label' => '', 'div' => 'false'));
-        echo $this->Form->submit(__('Search'));
+        echo $this->Form->end(__('Search'));
         ?>
         
         <h3><?php echo __('Navigation'); ?></h3>
@@ -45,7 +45,7 @@ $user = $this->Session->read('Auth.User');
                         }
                         if($action == 'edit' || $action == 'view'){
                             echo '<li>';    
-                            echo $this->Form->submit(__('Delete Bug'), array('action' => 'delete', $this->Form->value('Bug.bug_id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('Bug.bug_id')));
+                            echo $this->Form->postLink(__('Delete Bug'), array('action' => 'delete', $bug['Bug']['bug_id']), null, __('Are you sure you want to delete this bug?'));
                             echo '</li>';                            
                         }
                     }
