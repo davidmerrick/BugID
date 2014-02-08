@@ -36,20 +36,32 @@ class AppUsersController extends UsersController {
 	}
         
         public function edit($id = null) {
-		if (!$this->{$this->modelClass}->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			$data = $this->request->data[$this->modelClass];
-                        if ($this->{$this->modelClass}->save($this->request->data)){
-                                $this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+		try {
+			$result = $this->{$this->modelClass}->edit($id, $this->request->data);
+			if ($result === true) {
+				$this->Session->setFlash(__('User saved'));
+				$this->redirect(array('action' => 'view', $id));
 			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->request->data = $result;
 			}
-		} else {
-			$options = array('conditions' => array($this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $id));
-			$this->request->data = $this->{$this->modelClass}->find('first', $options);
+		} catch (OutOfBoundsException $e) {
+			$this->Session->setFlash($e->getMessage());
+			$this->redirect(array('action' => 'index'));
+		}
+
+		if (empty($this->request->data)) {
+			$this->request->data = $this->{$this->modelClass}->read(null, $id);
 		}
 	}
+        
+        public function view($slug = null) {
+                try {
+			$user = $this->{$this->modelClass}->view($slug);
+                        $this->set('user', $user);
+                        $this->set('title_for_layout', $user[$this->modelClass]['username'] . '\'s Profile'); //Sets page title
+		} catch (Exception $e) {
+			$this->Session->setFlash($e->getMessage());
+			$this->redirect('/');
+		}            
+        }
 }
