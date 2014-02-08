@@ -27,6 +27,4 @@
 		</dd>
 	</dl>
 </div>
-<?php 
-    echo $this->element('Users/sidebar', array('user' => $user[$model])); 
-?>
+<?php echo $this->element('Users/sidebar', array('user' => $user[$model])); ?>

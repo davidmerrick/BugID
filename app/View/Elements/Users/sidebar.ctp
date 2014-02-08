@@ -22,6 +22,7 @@ $myuser = $this->Session->read('Auth.User');
                                 echo $this->Html->link(__('View My Profile'), array('controller' => 'app_users', 'action' => 'view', $this->Session->read('Auth.User.id')));
                                 echo '</li>';
                             }
+                            //Only show edit profile options when we're viewing our own
                             if(isset($user) && $user['username'] == $myuser['username']){
                                 if($action != 'edit'){
                                     echo '<li>';
