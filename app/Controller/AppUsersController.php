@@ -53,6 +53,8 @@ class AppUsersController extends UsersController {
 
 		if (empty($this->request->data)) {
 			$this->request->data = $this->{$this->modelClass}->read(null, $id);
+                        $user = $this->{$this->modelClass}->view($id);
+                        $this->set('user', $user);
 		}
 	}
         
@@ -65,22 +67,5 @@ class AppUsersController extends UsersController {
 			$this->Session->setFlash($e->getMessage());
 			$this->redirect('/');
 		}            
-        }
-       
-        //Custom view of the bugs a certain user has uploaded
-        public function viewbugs($id = null) {
-            $this->{$this->modelClass}->id = $id;
-            if (!$this->{$this->modelClass}->exists()) {
-                throw new NotFoundException(__('Invalid user'));
-            }
-            $this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
-
-            //Do a custom pagination query for bugs belonging to user
-            $this->Paginator->settings = array(
-                'conditions' => array('Bug.user_id' => $id)
-            );
-            $bugs = $this->Paginator->paginate();
-            $this->set(compact('bugs'));
-            $this->set('user', $this->modelClass->read(null, $id));
         }
 }

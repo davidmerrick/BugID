@@ -13,4 +13,4 @@
 		</fieldset>
 	<?php echo $this->Form->end(__('Submit')); ?>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>
+<?php echo $this->element('Users/sidebar', array('user' => $user[$model])); ?>

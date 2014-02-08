@@ -39,6 +39,14 @@ $myuser = $this->Session->read('Auth.User');
                                     echo $this->Html->link(__('Change password'), array('controller' => 'app_users', 'action' => 'change_password')); 
                                     echo '</li>';
                                 }
+                                if($action == 'edit'){
+                                    //@todo: fix this
+                                    /*
+                                    echo '<li>';    
+                                    echo $this->Form->postLink(__('Delete My Account'), array('action' => 'delete', $this->Session->read('Auth.User.id')), null, __('Are you sure you want to delete your account?'));
+                                    echo '</li>';                            
+                                     */
+                                }
                             }
                             echo '<li>';
                             echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'action' => 'logout'));
