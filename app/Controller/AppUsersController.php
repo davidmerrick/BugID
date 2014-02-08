@@ -35,27 +35,21 @@ class AppUsersController extends UsersController {
 		return parent::render($view, $layout);
 	}
         
-        /*
         public function edit($id = null) {
-		try {
-			$user = $this->{$this->modelClass}->view($id, 'id');
-		} catch (NotFoundException $e) {
-			$this->Session->setFlash(__('Invalid User.'));
-			$this->redirect(array('action' => 'index'));
+		if (!$this->{$this->modelClass}->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
 		}
-		
-                if ($this->request->is(array('post', 'put'))) {
-                        if ($this->{$this->modelClass}->save($this->request->data)) {
-                                $this->Session->setFlash(__('User info has been saved.'));
+		if ($this->request->is(array('post', 'put'))) {
+			$data = $this->request->data[$this->modelClass];
+                        if ($this->{$this->modelClass}->save($this->request->data)){
+                                $this->Session->setFlash(__('The user has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('User info could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('User.' . $this->{$this->modelClass}->primaryKey => $id));
+			$options = array('conditions' => array($this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $id));
 			$this->request->data = $this->{$this->modelClass}->find('first', $options);
 		}
 	}
-         * *
-         */
 }
