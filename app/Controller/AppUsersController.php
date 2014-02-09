@@ -1,10 +1,9 @@
 <?php
 App::uses('UsersController', 'Users.Controller');
-//App::import('Bug');
 class AppUsersController extends UsersController {
 
         public $name = 'AppUsers';
-        //public $uses = array('Bug', 'UsersAppModel', 'Users.Model'); //All models will be available
+        //public $uses = array('Bug', 'User'); //All models will be available
         
 	public function beforeFilter() {
             parent::beforeFilter();
@@ -68,4 +67,26 @@ class AppUsersController extends UsersController {
 			$this->redirect('/');
 		}            
         }
+        
+        public function delete($id = null) {
+		$this->{$this->modelClass}->id = $id;
+		if (!$this->{$this->modelClass}->exists()) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+                $this->request->onlyAllow('post', 'delete');
+                //Logout/destroy session
+                $user = $this->Auth->user();
+		$this->Session->destroy();
+		if (isset($_COOKIE[$this->Cookie->name])) {
+                    $this->Cookie->destroy();
+		}
+		$this->RememberMe->destroyCookie();
+		//Perform delete
+                if ($this->{$this->modelClass}->delete()) {
+			$this->Session->setFlash(__('Your account has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('Your account could not be deleted. Please, try again.'));
+		}
+		$this->redirect($this->Auth->logout());
+	}
 }

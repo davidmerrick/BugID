@@ -9,7 +9,7 @@ echo '<div id="loginbar">';
         echo '<h1>Logged in as ' . $user['username'] . '</h1>';
     } else {
         //echo $this->Html->link(__('Please Login'), array('controller' => 'users', 'action' => 'login'));
-        echo '<h1>Please Login</h1>';
+        echo '<h1>Please Login or Register</h1>';
     }
 echo '</div>';
 ?>
