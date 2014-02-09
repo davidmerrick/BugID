@@ -16,4 +16,16 @@ class AppUser extends User {
                 'foreignKey' => 'user_id'
              )
         );
+        
+        public function beforeDelete($cascade = true) {
+            
+            //Delete all bugs associated with this user
+            if(!$this->Bug->deleteall(
+                array('user_id' => $this->id)
+            )){
+                return false;
+            }
+                
+            return true;
+        }
 }

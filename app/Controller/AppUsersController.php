@@ -74,19 +74,20 @@ class AppUsersController extends UsersController {
 			throw new NotFoundException(__('Invalid user'));
 		}
                 $this->request->onlyAllow('post', 'delete');
-                //Logout/destroy session
-                $user = $this->Auth->user();
-		$this->Session->destroy();
-		if (isset($_COOKIE[$this->Cookie->name])) {
-                    $this->Cookie->destroy();
-		}
-		$this->RememberMe->destroyCookie();
+                
 		//Perform delete
                 if ($this->{$this->modelClass}->delete()) {
-			$this->Session->setFlash(__('Your account has been deleted.'));
+                    //Logout/destroy session
+                    $user = $this->Auth->user();
+                    $this->Session->destroy();
+                    if (isset($_COOKIE[$this->Cookie->name])) {
+                        $this->Cookie->destroy();
+                    }
+                    $this->RememberMe->destroyCookie();
+                    $this->Session->setFlash(__('Your account has been deleted.'));
+                    $this->redirect($this->Auth->logout());
 		} else {
-			$this->Session->setFlash(__('Your account could not be deleted. Please, try again.'));
+                    $this->Session->setFlash(__('Your account could not be deleted. Please, try again.'));
 		}
-		$this->redirect($this->Auth->logout());
 	}
 }
