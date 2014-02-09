@@ -32,9 +32,6 @@ class Bug extends AppModel {
     
     public $primaryKey = 'bug_id';
     public $displayField = 'species_name';
-
-        //For storing info before delete
-        private $info;
         
 	public $validate = array(
 		'bug_size' => array(
@@ -81,16 +78,12 @@ class Bug extends AppModel {
                     ),
 	);
         
-        // Before delete, save the record so we can delete the associated image after delete
         public function beforeDelete() {
-            $this->info = $this->find('first', array(
+            //delete associated image
+            $info = $this->find('first', array(
                     'conditions' => array('Bug.bug_id' => $this->id),
             ));
-        }
-        
-        // After delete, delete uploaded image
-        public function afterDelete() {
-            unlink(WWW_ROOT . 'img' . DS . $this->info ['Bug']['bug_photo']);
+            unlink(WWW_ROOT . 'img' . DS . $info['Bug']['bug_photo']);
         }
         
         //Handles the upload of images

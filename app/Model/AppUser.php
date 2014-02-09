@@ -21,7 +21,9 @@ class AppUser extends User {
             
             //Delete all bugs associated with this user
             if(!$this->Bug->deleteall(
-                array('user_id' => $this->id)
+                array('user_id' => $this->id), 
+                true, 
+                true //Enable callbacks
             )){
                 return false;
             }
