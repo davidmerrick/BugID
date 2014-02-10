@@ -31,6 +31,4 @@
 	?>
 	</div>
 </div>
-<?php
-echo $this->Element('sidebar');
-?>
+<?php echo $this->Element('Bugs/sidebar'); ?>
