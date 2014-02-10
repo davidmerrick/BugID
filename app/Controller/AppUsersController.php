@@ -97,4 +97,12 @@ class AppUsersController extends UsersController {
             $this->Paginator->settings['conditions'] = $this->{$this->modelClass}->parseCriteria($this->Prg->parsedParams());
             $this->set('users', $this->Paginator->paginate());
         }
+        
+        public function login(){
+            if ($this->Auth->user()) {
+                $this->Session->setFlash(__d('users', 'You are already logged in!'));
+                $this->redirect('/');
+            }
+            parent::login();
+        }
 }
