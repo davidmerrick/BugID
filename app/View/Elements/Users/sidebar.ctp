@@ -2,9 +2,19 @@
 $action = $this->params['action'];
 //$myuser is currently logged-in user, $user is one passed in from view
 $myuser = $this->Session->read('Auth.User');
-
 $is_logged_in = $this->Session->read('Auth.User.id');
-        echo '<div class="actions">';
+        
+echo '<div class="actions">';
+        echo '<h3>' . __('Search Users') . '</h3>';
+        
+        //Search bar
+        echo $this->Form->create('AppUser', array(
+            'url' => array_merge(array('controller'=>'app_users', 'action' => 'find'), $this->params['pass'])
+        ));
+        echo $this->Form->input('filter', array('label' => '', 'div' => 'false'));
+        echo $this->Form->end(__('Search'));
+
+
         echo '<h3>' . __('Actions') . '</h3>';
         echo '<ul>';
         if (!$is_logged_in){
@@ -17,7 +27,11 @@ $is_logged_in = $this->Session->read('Auth.User.id');
                 echo '</li>';
             } 
         } else {
-            $user_id = $this->request->params['pass'][0];
+                if(isset($this->request->params['pass'][0])){
+                    $user_id = $this->request->params['pass'][0];
+                } else {
+                    $user_id = null;
+                } 
                 //If we're viewing someone else's profile and not viewing our own,
                 //add a link to view our own.
                 if($action != 'view' || isset($user) && $user['username'] != $myuser['username']){
@@ -32,7 +46,7 @@ $is_logged_in = $this->Session->read('Auth.User.id');
                 }
                 //Only show edit profile options when we're viewing our own
                 //@todo: Fix this. $user_id and $myuser['id'] are equal but it's not displaying any options on view page for user
-                if($user_id == $myuser['id']){
+                if(isset($user_id) && $user_id == $myuser['id']){
                     if($action != 'edit'){
                         echo '<li>';
                             echo $this->Html->link(__('Edit Profile'), array('controller' => 'app_users', 'action' => 'edit', $this->Session->read('Auth.User.id')));
@@ -55,25 +69,10 @@ $is_logged_in = $this->Session->read('Auth.User.id');
         }
         if($this->Session->read('Auth.User.is_admin')){
             echo '<li>&nbsp;</li>';
-            echo '<li>' . $this->Html->link(__('List Users'), array('action'=>'index')); 
+                echo '<li>' . $this->Html->link(__('List Users'), array('action'=>'index')); 
             echo '</li>';
         }
     echo '</ul>';
-
-    if ($is_logged_in && 'action' != 'login'){
-        echo '<h3>' . __('Navigation') . '</h3>';
-        echo '<ul>';
-            if($action != 'mybugs'){
-                echo '<li>';
-                    echo $this->Html->link(__('My Bugs'), array('controller' => 'bugs', 'action' => 'mybugs')); 
-                echo '</li>';
-            }
-            if($action != 'index'){
-                echo '<li>';
-                    echo $this->Html->link(__('All Bugs'), array('controller' => 'bugs', 'action' => 'index')); 
-                echo '</li>';
-            }
-        echo '</ul>';
-        }
+    echo $this->Element('navigation');
 echo '</div>';
 ?>

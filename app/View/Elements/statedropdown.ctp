@@ -1,5 +1,6 @@
 <?php
 $states = array(
+     '' => '',
      'Alabama' => 'Alabama',
      'Alaska' => 'Alaska',
      'Arizona' => 'Arizona',

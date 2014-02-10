@@ -30,4 +30,23 @@ class AppUser extends User {
                 
             return true;
         }
+        
+    //For searchable behavior
+    public $filterArgs = array(
+        'filter' => array('type' => 'query', 'method' => 'orConditions')
+    );
+
+    public function orConditions($data = array()) {
+        $filter = $data['filter'];
+        $cond = array(
+            'OR' => array(
+                $this->alias . '.username LIKE' => '%' . $filter . '%',
+                $this->alias . '.email LIKE' => '%' . $filter . '%',
+                $this->alias . '.first_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.last_name LIKE' => '%' . $filter . '%',
+                $this->alias . '.university LIKE' => '%' . $filter . '%',
+            ));
+        return $cond;
+    }
+        
 }

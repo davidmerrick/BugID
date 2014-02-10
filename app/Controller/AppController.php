@@ -28,7 +28,7 @@ class AppController extends Controller {
             $this->theme='BugID';   
            
             //Allow viewing indexes and views by everyone
-            $this->Auth->allow('index', 'view');
+            $this->Auth->allow('index', 'view', 'find');
             
             //Setup Auth stuff
             $this->Auth->authError = __('Sorry, but you need to login to access this location.', true);

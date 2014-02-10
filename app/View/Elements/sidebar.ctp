@@ -2,41 +2,21 @@
 $action = $this->params['action']; 
 $is_logged_in = $this->Session->read('Auth.User.id');
 $user = $this->Session->read('Auth.User');
-?>
-<div class="actions">
-        <h3><?php echo __('Search Bugs'); ?></h3>
-        <?php
-            echo $this->Form->create('Bug', array(
+echo '<div class="actions">';
+        //Search bar
+        echo '<h3>' . __('Search Bugs') . '</h3>';
+        echo $this->Form->create('Bug', array(
             'url' => array_merge(array('controller'=>'bugs', 'action' => 'find'), $this->params['pass'])
         ));
         echo $this->Form->input('filter', array('label' => '', 'div' => 'false'));
         echo $this->Form->end(__('Search'));
-        ?>
-        
-        <h3><?php echo __('Navigation'); ?></h3>
-            <ul>
-                    <?php
-                        if($action != 'mybugs'){
-                            echo '<li>';
-                                echo $this->Html->link(__('My Bugs'), array('action' => 'mybugs')); 
-                            echo '</li>';
-                        }
-                        if($action != 'index'){
-                            echo '<li>';
-                                echo $this->Html->link(__('All Bugs'), array('action' => 'index')); 
-                            echo '</li>';
-                        }
-                        ?>
-                </li>
-            </ul>    
-        <h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<?php 
-                    if($action != 'add'){
-                        echo '<li>';
-                            echo $this->Html->link(__('New Bug'), array('action' => 'add')); 
-                        echo '</li>';
-                    }
+       
+        if($action != 'add'){
+            echo '<h3>' . __('Actions') . '</h3>';
+            echo '<ul>';
+                    echo '<li>';
+                        echo $this->Html->link(__('New Bug'), array('action' => 'add')); 
+                    echo '</li>';
                     if(isset($bug) && $bug['User']['username'] == $user['username']){
                         if($action == 'view'){
                             echo '<li>';
@@ -49,6 +29,7 @@ $user = $this->Session->read('Auth.User');
                             echo '</li>';                            
                         }
                     }
-                ?>
-	</ul>
-</div>
+            echo '</ul>';
+            echo $this->Element('navigation');
+        }
+echo '</div>';

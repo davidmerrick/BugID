@@ -90,4 +90,11 @@ class AppUsersController extends UsersController {
                     $this->Session->setFlash(__('Your account could not be deleted. Please, try again.'));
 		}
 	}
+        
+        public function find() {
+            $this->set('title_for_layout', 'Find Users'); 
+            $this->Prg->commonProcess();
+            $this->Paginator->settings['conditions'] = $this->{$this->modelClass}->parseCriteria($this->Prg->parsedParams());
+            $this->set('users', $this->Paginator->paginate());
+        }
 }

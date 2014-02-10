@@ -1,11 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * Bugs Controller
- *
- * @property Bug $Bug
- * @property PaginatorComponent $Paginator
- */
+
 class BugsController extends AppController {
         
         public $components = array('Paginator', 'Search.Prg');
