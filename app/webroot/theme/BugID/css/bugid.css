@@ -21,7 +21,7 @@ body {
 	margin: 0;
 }
 
-.bug_photo{
+.bug_photo, .profile_photo {
     max-width: 700px;
 }
 

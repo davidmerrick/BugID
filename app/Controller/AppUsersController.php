@@ -39,8 +39,23 @@ class AppUsersController extends UsersController {
                 if (!$this->{$this->modelClass}->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
+                $this->set('title_for_layout', 'Edit User'); 
                 if ($this->request->is(array('post', 'put'))) {
-                        if ($this->{$this->modelClass}->save($this->request->data, true)){
+                        $data = $this->request->data[$this->modelClass];
+                        if (empty($data['profile_photo']['name'])){
+                            unset($data['profile_photo']);
+                        }
+                        try {
+                            $result = $this->{$this->modelClass}->edit($id, $data);
+                            if ($result === true) {
+                                    $this->Session->setFlash(__('User saved'));
+                                    $this->redirect(array('action' => 'view', $id));
+                            }
+                        } catch (OutOfBoundsException $e) {
+                            $this->Session->setFlash($e->getMessage());
+                            $this->redirect(array('action' => 'index'));
+                        }
+                        if ($this->{$this->modelClass}->save($data, true, array('university'))){
                                 $this->Session->setFlash(__('Your profile has been updated.'));
                                 return $this->redirect(array('action' => 'view', $id));
                         } else {

@@ -78,9 +78,6 @@ class AppUser extends User {
     }
     
     public function processImageUpload($check = array()){
-            if(!isset($check['profile_photo']) || !isset($check['profile_photo']['tmp_name'])){
-                    return FALSE; //Allow empty profile photos but don't process them
-            }
             if(!is_uploaded_file($check['profile_photo']['tmp_name'])){
                     return FALSE;
             }
