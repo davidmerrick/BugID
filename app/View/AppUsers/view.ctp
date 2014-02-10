@@ -7,6 +7,9 @@
 			&nbsp;
 		</dd>
 		<?php
+                if($user[$model]['profile_photo']){
+                    echo $this->Html->image($user[$model]['profile_photo'], array('class' => 'profile_photo'));
+                }
 		if (!empty($user[$model]['first_name'])) {		
                     echo '<dt>First Name</dt>';
                     echo '<dd>' . $user[$model]['first_name'] . '</dd>';

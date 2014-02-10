@@ -75,7 +75,17 @@ class User extends UsersAppModel {
  *
  * @var array
  */
-	public $validate = array(
+	public $validate;
+
+/**
+ * Constructor
+ *
+ * @param bool|string $id ID
+ * @param string $table Table
+ * @param string $ds Datasource
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+            $this->validate = array(
 		'username' => array(
 			'required' => array(
 				'rule' => array('notEmpty'),
@@ -111,16 +121,7 @@ class User extends UsersAppModel {
 		'tos' => array(
 			'rule' => array('custom','[1]'),
 			'message' => 'You must agree to the terms of use.'));
-
-/**
- * Constructor
- *
- * @param bool|string $id ID
- * @param string $table Table
- * @param string $ds Datasource
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		$this->_setupBehaviors();
+                $this->_setupBehaviors();
 		$this->_setupValidation();
 		parent::__construct($id, $table, $ds);
 	}

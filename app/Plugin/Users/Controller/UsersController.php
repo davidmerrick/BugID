@@ -401,7 +401,7 @@ class UsersController extends UsersAppController {
 					'Users.Controller.Users.afterRegistration',
 					$this,
 					array(
-						'data' => $this->request->data,
+                                            'data' => $this->request->data,
 					)
 				);
 				$this->getEventManager()->dispatch($Event);

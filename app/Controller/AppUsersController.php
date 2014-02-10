@@ -3,7 +3,6 @@ App::uses('UsersController', 'Users.Controller');
 class AppUsersController extends UsersController {
 
         public $name = 'AppUsers';
-        //public $uses = array('Bug', 'User'); //All models will be available
         
 	public function beforeFilter() {
             parent::beforeFilter();
@@ -37,20 +36,17 @@ class AppUsersController extends UsersController {
 	}
         
         public function edit($id = null) {
-		try {
-			$result = $this->{$this->modelClass}->edit($id, $this->request->data);
-			if ($result === true) {
-				$this->Session->setFlash(__('User saved'));
-				$this->redirect(array('action' => 'view', $id));
-			} else {
-				$this->request->data = $result;
-			}
-		} catch (OutOfBoundsException $e) {
-			$this->Session->setFlash($e->getMessage());
-			$this->redirect(array('action' => 'index'));
+                if (!$this->{$this->modelClass}->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
 		}
-
-		if (empty($this->request->data)) {
+                if ($this->request->is(array('post', 'put'))) {
+                        if ($this->{$this->modelClass}->save($this->request->data, true)){
+                                $this->Session->setFlash(__('Your profile has been updated.'));
+                                return $this->redirect(array('action' => 'view', $id));
+                        } else {
+                                $this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
+                        }
+		} else {
 			$this->request->data = $this->{$this->modelClass}->read(null, $id);
                         $user = $this->{$this->modelClass}->view($id);
                         $this->set('user', $user);

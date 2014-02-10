@@ -71,7 +71,7 @@ class Bug extends AppModel {
 			),
 			'processImageUpload' => array(
 				'rule' => array('processImageUpload',
-				'message' => 'Unable to process cover image upload.',
+				'message' => 'Unable to process image upload.',
 				'allowEmpty' => TRUE, 
 				),
 			),

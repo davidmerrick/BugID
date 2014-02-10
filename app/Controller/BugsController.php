@@ -63,11 +63,6 @@ class BugsController extends AppController {
 			$this->request->data['Bug']['user_id'] = $this->Auth->user('id');
                         $this->Bug->create();
 			$data = $this->request->data['Bug'];
-			/*
-                        if(!$data['bug_photo']['name']){
-				unset($data['bug_photo']);
-			}
-                         */
                         if ($this->Bug->save($data)) {
 				$this->Session->setFlash(__('The bug has been saved.'));
 				return $this->redirect(array('action' => 'view', $this->Bug->id));
@@ -83,11 +78,7 @@ class BugsController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			$data = $this->request->data['Bug'];
-                        //if(!$data['bug_photo']['name']){
-                        //Don't allow photo to be changed
-                        //unset($data['bug_photo']);
-                        //}
-                        
+
                         //Only allow certain fields to be updated
                         if ($this->Bug->save($data, true, array(
                             'bug_size', 
