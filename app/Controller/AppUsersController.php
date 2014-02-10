@@ -39,14 +39,13 @@ class AppUsersController extends UsersController {
                 if (!$this->{$this->modelClass}->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
-                $this->set('title_for_layout', 'Edit User'); 
+                $this->set('title_for_layout', 'Edit Profile'); 
                 if ($this->request->is(array('post', 'put'))) {
                         $data = $this->request->data[$this->modelClass];
-                        if (empty($data['profile_photo']['name'])){
-                            unset($data['profile_photo']);
-                        }
+                        //Fields for validation
+                        $fields = array('first_name', 'last_name', 'university', 'profile_photo');
                         try {
-                            $result = $this->{$this->modelClass}->edit($id, $data);
+                            $result = $this->{$this->modelClass}->edit($id, $data, $fields);
                             if ($result === true) {
                                     $this->Session->setFlash(__('User saved'));
                                     $this->redirect(array('action' => 'view', $id));

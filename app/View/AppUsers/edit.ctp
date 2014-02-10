@@ -3,7 +3,10 @@
 		<fieldset>
 			<legend><?php echo __('Edit User'); ?></legend>
 			<?php
-				echo $this->Form->input('profile_photo', array('type' => 'file'));
+                                if($this->data[$model]['profile_photo']){
+                                    echo $this->Html->image($this->data[$model]['profile_photo'], array('class' => 'profile_photo'));
+                                }
+				echo $this->Form->input('profile_photo', array('type' => 'file', 'label' => 'Change Profile Photo'));
                                 echo $this->Form->input('first_name');
 				echo $this->Form->input('last_name');
                                 echo $this->Form->input('university', array('label' => 'University Affiliation'));

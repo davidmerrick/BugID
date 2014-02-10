@@ -13,27 +13,23 @@ class AppUser extends User {
         public function __construct($id = false, $table = null, $ds = null) {
             parent::__construct($id, $table, $ds);
             $this->validate['profile_photo'] = array(
-                        'required' => array(
-                                'required' => false, 
-                                'allowEmpty' => true,
+                'uploadError' => array(
+                        'rule' => 'uploadError',
+                        'message' => 'The image upload failed.',
+                        'allowEmpty' => TRUE,
+                ),
+                'mimeType' => array(
+                        'rule' => array('mimeType', array('image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/tiff')),
+                        'message' => 'Please only upload images.',
+                        'allowEmpty' => TRUE,
+                ),
+                'processImageUpload' => array(
+                        'rule' => array('processImageUpload',
+                        'message' => 'Unable to process image upload.',
+                        'allowEmpty' => TRUE, 
                         ),
-                        'uploadError' => array(
-				'rule' => 'uploadError',
-				'message' => 'The image upload failed.',
-				'allowEmpty' => TRUE,
-			),
-			'mimeType' => array(
-				'rule' => array('mimeType', array('image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/tiff')),
-				'message' => 'Please only upload images.',
-				'allowEmpty' => TRUE,
-			),
-			'processImageUpload' => array(
-				'rule' => array('processImageUpload',
-				'message' => 'Unable to process image upload.',
-				'allowEmpty' => TRUE, 
-				),
-			)
-                    );
+                )
+            );
         }
         
         public $hasMany = array(
@@ -93,7 +89,7 @@ class AppUser extends User {
             return TRUE;
     }
     
-    public function edit($userId = null, $postData = null) {
+    public function edit($userId = null, $postData = null, $fields = array('first_name', 'last_name', 'university', 'profile_photo')) {
             $user = $this->getUserForEditing($userId);
             $this->set($user);
             if (empty($user)) {
@@ -102,7 +98,7 @@ class AppUser extends User {
 
             if (!empty($postData)) {
                     $this->set($postData);
-                    $result = $this->save(null, true);
+                    $result = $this->save(null, true, $fields);
                     if ($result) {
                             $this->data = $result;
                             return true;
