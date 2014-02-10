@@ -7,6 +7,12 @@ class BugsController extends AppController {
         public $presetVars = true; // using the model configuration
         public $uses = array('Bug', 'User');
         
+        public $paginate = array(
+            'order' => array(
+                'Bug.created' => 'desc'
+            )
+        );
+        
         public function find() {
             $this->set('title_for_layout', 'Find Bugs'); //Sets page title
             $this->Prg->commonProcess();
@@ -18,7 +24,7 @@ class BugsController extends AppController {
 		//Set recursive to 1 to retrieve users associated with the bug
                 $this->Bug->recursive = 1;
                 $this->set('title_for_layout', 'All Bugs'); //Sets page title
-		$this->set('bugs', $this->Paginator->paginate());
+                $this->set('bugs', $this->Paginator->paginate());
 	}
         
         //Shows a list of bugs current user has uploaded
