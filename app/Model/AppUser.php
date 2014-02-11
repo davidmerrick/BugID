@@ -116,15 +116,16 @@ class AppUser extends User {
     }
     
     public function beforeSave(array $options = array()){
-        //Delete previosly-uploaded profile photo
-        $info = $this->find('first', array(
-                    'conditions' => array($this->alias . '.id' => $this->id),
-        ));
-        //But only if they're updating it
-        if(!empty($info[$this->alias]['profile_photo']) && 
-                  $this->data[$this->alias]['profile_photo'] != $info[$this->alias]['profile_photo']){
-            if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo'])){
-                unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo']);
+        if(isset($this->data[$this->alias]['profile_photo'])){
+            //Delete previosly-uploaded profile photo
+            $info = $this->find('first', array(
+                        'conditions' => array($this->alias . '.id' => $this->id),
+            ));
+            //But only if they're updating it
+            if(!empty($info[$this->alias]['profile_photo']) && $this->data[$this->alias]['profile_photo'] != $info[$this->alias]['profile_photo']){
+                if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo'])){
+                    unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo']);
+                }
             }
         }
     }
