@@ -24,11 +24,23 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'bugs', 'action' => 'index', 'index'));
+	Router::connect('/', array('controller' => 'bugs', 'action' => 'index'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+
+	//Redirect users plugin
+	Router::redirect('/users', array('controller' => 'app_users', 'action' => 'index'),  array('status' => 301));
+    	Router::redirect('/users/*', array('controller' => 'app_users', 'action' => 'index'), array('status' => 301));
+	Router::redirect('/users/index/*', array('controller' => 'app_users'), array('status' => 301));
+	Router::redirect('/users/:action/*', array('controller' => 'app_users'), array('status' => 301));
+	Router::redirect('/users/users/:action/*', array('controller' => 'app_users'), array('status' => 301));
+	Router::redirect('/users/users/login', array('controller' => 'app_users', 'action' => 'login'), array('status' => 301));
+	Router::redirect('/login', array('controller' => 'app_users', 'action' => 'login'), array('status' => 301));
+	Router::redirect('/logout', array('controller' => 'app_users', 'action' => 'logout'), array('status' => 301));
+	Router::redirect('/register', array('controller' => 'app_users', 'action' => 'add'), array('status' => 301));
+
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on
