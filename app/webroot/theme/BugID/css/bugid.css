@@ -133,6 +133,15 @@ p {
     color: white;
 }
 
+#loginbar-popover ul {
+    list-style-type: none;
+}
+
+#loginbar-popover ul li {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 #header{
 	padding: 0px 0px;
 }
