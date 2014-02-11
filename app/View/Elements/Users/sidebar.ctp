@@ -13,6 +13,6 @@ echo '<div class="actions">';
             echo '<li>' . $this->Html->link(__('List Users'), array('action'=>'index')); 
         echo '</li>';
     }
-    echo $this->Element('navigation');
+    //echo $this->Element('navigation');
 echo '</div>';
 ?>

@@ -20,6 +20,7 @@
 	<div id="container">
 		<div id="header">
 			<h1 id="logo"><?php echo $this->Html->link(__($logotext), '/'); ?></h1>
+                        <?php echo $this->element('navigation_top'); ?>
                         <?php echo $this->element('loginbar'); ?>
 		</div>
 		<div id="content">

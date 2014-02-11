@@ -82,6 +82,18 @@ p {
     text-decoration:none !important;
 }
 
+#top-nav {
+	float:left;
+}
+
+#top-nav li {
+	float:left;
+}
+
+#top-nav li a{
+	text-decoration: none;
+}
+
 .triangle-down {
     float: left;
     margin-top: 5px;
