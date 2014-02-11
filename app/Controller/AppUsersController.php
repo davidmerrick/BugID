@@ -37,8 +37,12 @@ class AppUsersController extends UsersController {
         
         public function edit($id = null) {
                 if (!$this->{$this->modelClass}->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
+                    throw new NotFoundException(__('Invalid user'));
 		}
+                if($id != $this->Auth->user('id')){
+                    $this->Session->setFlash(__('You are not permitted to edit another user\'s profile.'));
+                    $this->redirect(array('controller' => 'app_users', 'action' => 'view', $this->Auth->user('id')));
+                }
                 $this->set('title_for_layout', 'Edit Profile'); 
                 if ($this->request->is(array('post', 'put'))) {
                         $data = $this->request->data[$this->modelClass];

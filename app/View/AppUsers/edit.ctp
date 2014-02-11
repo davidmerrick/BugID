@@ -27,5 +27,4 @@
             echo '</fieldset>';
 	echo $this->Form->end(__('Update'));
 echo '</div>';
-echo $this->element('Users/sidebar'); 
 ?>
