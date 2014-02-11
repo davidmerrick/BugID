@@ -71,13 +71,29 @@ class AppUsersController extends UsersController {
                 try {
 			$user = $this->{$this->modelClass}->view($slug);
                         $this->set('user', $user);
-                        $this->set('title_for_layout', $user[$this->modelClass]['username'] . '\'s Profile'); //Sets page title
+                        $this->set('title_for_layout', ucfirst($user[$this->modelClass]['username']) . '\'s Profile'); //Sets page title
 		} catch (Exception $e) {
 			$this->Session->setFlash($e->getMessage());
 			$this->redirect('/');
 		}            
         }
         
+        public function delete_profile_photo($id = null){
+            $this->{$this->modelClass}->id = $id;
+            if(!$this->{$this->modelClass}->exists()){
+                    throw new NotFoundException(__('Invalid user'));
+            }
+            $this->request->onlyAllow('post');
+            if ($this->{$this->modelClass}->delete_profile_photo($id)) {
+                $this->Session->setFlash(__('Profile photo has been deleted.'));
+                $this->redirect(array('action' => 'view', $id));
+            } else {
+                $this->Session->setFlash(__('Your profile photo could not be deleted. Please, try again.'));
+                $this->redirect(array('action' => 'view', $id));
+            }
+            
+        }
+            
         public function delete($id = null) {
 		$this->{$this->modelClass}->id = $id;
 		if (!$this->{$this->modelClass}->exists()) {
@@ -109,6 +125,7 @@ class AppUsersController extends UsersController {
         }
         
         public function login(){
+            $this->set('title_for_layout', 'Login'); 
             if ($this->Auth->user()) {
                 $this->Session->setFlash(__d('users', 'You are already logged in!'));
                 $this->redirect('/');

@@ -40,7 +40,6 @@ class AppUser extends User {
         );
         
         public function beforeDelete($cascade = true) {
-            
             //Delete all bugs associated with this user
             if(!$this->Bug->deleteall(
                 array('user_id' => $this->id), 
@@ -50,8 +49,16 @@ class AppUser extends User {
                 return false;
             }
             //Delete profile photo
-            //unlink(WWW_ROOT . 'img' . DS . $info['Bug']['bug_photo']);
-                
+            $info = $this->find('first', array(
+                        'conditions' => array($this->alias . '.id' => $this->id),
+            ));
+            
+            if(!empty($info[$this->alias]['profile_photo'])){
+                if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo'])){
+                    unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo']);
+                }
+            }
+            
             return true;
         }
         
@@ -106,6 +113,47 @@ class AppUser extends User {
                             return $postData;
                     }
             }
+    }
+    
+    public function beforeSave(array $options = array()){
+        //Delete previosly-uploaded profile photo
+        $info = $this->find('first', array(
+                    'conditions' => array($this->alias . '.id' => $this->id),
+        ));
+        //But only if they're updating it
+        if(!empty($info[$this->alias]['profile_photo']) && 
+                  $this->data[$this->alias]['profile_photo'] != $info[$this->alias]['profile_photo']){
+            if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo'])){
+                unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo']);
+            }
+        }
+    }
+    
+    public function delete_profile_photo($id = null){
+        if(!isset($id)){
+            return false;
+        }
+
+        //Delete previosly-uploaded profile photo
+        $info = $this->find('first', array(
+                    'conditions' => array($this->alias . '.id' => $this->id),
+        ));
+        //But only if it actually exists
+        if(!empty($info[$this->alias]['profile_photo'])){
+            if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo'])){
+                unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['profile_photo']);
+            }
+        }
+        //Delete it in the database as well
+        $info[$this->alias]['profile_photo'] = '';
+        $this->set($info);
+        $result = $this->save(null, false, array('profile_photo'));
+        if ($result) {
+            $this->data = $result;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

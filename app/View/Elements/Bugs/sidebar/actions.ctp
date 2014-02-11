@@ -16,7 +16,7 @@ if($action != 'add'){
                 }
                 if($action == 'edit' || $action == 'view'){
                     echo '<li>';    
-                    echo $this->Form->postLink(__('Delete Bug'), array('action' => 'delete', $bug['Bug']['bug_id']), null, __('Are you sure you want to delete this bug?'));
+                        echo $this->Form->postLink(__('Delete Bug'), array('action' => 'delete', $bug['Bug']['bug_id']), null, __('Are you sure you want to delete this bug?'));
                     echo '</li>';                            
                 }
             }

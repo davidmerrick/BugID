@@ -78,12 +78,17 @@ class Bug extends AppModel {
                     ),
 	);
         
-        public function beforeDelete() {
+        public function beforeDelete(){
             //delete associated image
             $info = $this->find('first', array(
-                    'conditions' => array('Bug.bug_id' => $this->id),
+                    'conditions' => array($this->alias . '.bug_id' => $this->id),
             ));
-            unlink(WWW_ROOT . 'img' . DS . $info['Bug']['bug_photo']);
+            
+            if(!empty($info[$this->alias]['bug_photo'])){
+                if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo'])){
+                    unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo']);
+                }
+            }
         }
         
         //Handles the upload of images

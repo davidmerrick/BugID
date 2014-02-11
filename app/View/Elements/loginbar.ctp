@@ -18,18 +18,18 @@ echo '</div>';
         if(!empty($user)) {
             //Logged in
             echo '<ul>';
-            echo '<li>';
-                echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'action' => 'logout'));
-            echo '</li>';
-            echo '<li>';
-                echo $this->Html->link('View Profile', array('controller' => 'app_users', 'action' => 'view', $user['id']));
-            echo '</li>';
-            echo '<li>';
-                echo $this->Html->link('Edit Profile', array('controller' => 'app_users', 'action' => 'edit', $user['id']));
-            echo '</li>';
-            echo '<li>';
-            echo $this->Html->link('View my bugs', array('controller' => 'bugs', 'action' => 'mybugs'));
-            echo '</li>';
+                echo '<li>';
+                    echo $this->Html->link(__('View Profile'), array('controller' => 'app_users', 'action' => 'view', $user['id']));
+                echo '</li>';
+                echo '<li>';
+                    echo $this->Html->link(__('Edit Profile'), array('controller' => 'app_users', 'action' => 'edit', $user['id']));
+                echo '</li>';
+                echo '<li>';
+                echo $this->Html->link(__('View my bugs'), array('controller' => 'bugs', 'action' => 'mybugs'));
+                echo '</li>';
+                echo '<li>';
+                    echo $this->Html->link(__('Logout'), array('controller' => 'app_users', 'action' => 'logout'));
+                echo '</li>';
             echo '</ul>';
         } else {
             $model = 'AppUser';
