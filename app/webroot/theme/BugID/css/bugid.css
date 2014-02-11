@@ -76,6 +76,7 @@ p {
 /* header */
 #logo {
     float:left;
+    width:16%;
 }
 
 #logo a {
@@ -84,6 +85,7 @@ p {
 
 #top-nav {
 	float:left;
+	list-style-type: none;
 }
 
 #top-nav li {
