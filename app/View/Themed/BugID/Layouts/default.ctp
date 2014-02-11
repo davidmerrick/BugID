@@ -26,6 +26,7 @@
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
+			<?php echo $this->Element('sidebar'); ?>
 		</div>
 		<div id="footer">
 		</div>

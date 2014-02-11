@@ -1,6 +1,9 @@
 <?php $user = $this->Session->read('Auth.User'); ?>
 <div class="bugs index">
-	<h2><?php echo $this->Html->link((ucfirst($bugs[0]['User']['username']) . '\'s Bugs'), array('controller' => 'app_users', 'action' => 'view', $bugs[0]['Bug']['user_id'])); ?></h2>
+	<h2><?php 
+	echo $this->Html->link((ucfirst($bugs[0]['User']['username']) . '\'s'), array('controller' => 'app_users', 'action' => 'view', $bugs[0]['Bug']['user_id']));
+	echo  ' Bugs';
+	?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('species_name'); ?></th>
@@ -31,4 +34,3 @@
 	?>
 	</div>
 </div>
-<?php echo $this->Element('Bugs/sidebar'); ?>

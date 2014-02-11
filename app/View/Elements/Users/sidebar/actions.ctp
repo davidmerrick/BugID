@@ -1,6 +1,5 @@
 <?php
 $action = $this->params['action'];
-//$myuser is currently logged-in user, $user is one passed in from view
 $myuser = $this->Session->read('Auth.User');
 $is_logged_in = $this->Session->read('Auth.User.id');
 

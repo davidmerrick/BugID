@@ -1,10 +1,4 @@
-<?php 
-/*
-$action = $this->params['action'];
-//$myuser is currently logged-in user, $user is one passed in from view
-$myuser = $this->Session->read('Auth.User');
-$is_logged_in = $this->Session->read('Auth.User.id');
- */      
+<?php    
 echo '<div class="actions">';
     echo $this->Element('Users/sidebar/search_bar');
     echo $this->Element('Users/sidebar/actions');
@@ -13,6 +7,5 @@ echo '<div class="actions">';
             echo '<li>' . $this->Html->link(__('List Users'), array('action'=>'index')); 
         echo '</li>';
     }
-    //echo $this->Element('navigation');
 echo '</div>';
 ?>

@@ -13,4 +13,3 @@
 		?>
 	</fieldset>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>

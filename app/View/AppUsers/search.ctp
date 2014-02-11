@@ -49,4 +49,3 @@
 	</table>
 	<?php echo $this->element('Users.paging'); ?>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>

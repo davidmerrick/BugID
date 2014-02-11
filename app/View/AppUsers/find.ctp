@@ -33,6 +33,3 @@
 	?>
 	</div>
 </div>
-<?php 
-echo $this->Element('Users/sidebar');
-?>

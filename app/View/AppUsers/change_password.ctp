@@ -15,4 +15,3 @@
 		echo $this->Form->end(__('Submit'));
 	?>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>
