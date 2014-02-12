@@ -38,7 +38,7 @@ class AppUsersController extends UsersController {
         public function edit($id = null) {
                 if (!$this->{$this->modelClass}->exists($id)) {
                     throw new NotFoundException(__('Invalid user'));
-		}
+		        }
                 if($id != $this->Auth->user('id')){
                     $this->Session->setFlash(__('You are not permitted to edit another user\'s profile.'));
                     $this->redirect(array('controller' => 'app_users', 'action' => 'view', $this->Auth->user('id')));
@@ -73,13 +73,41 @@ class AppUsersController extends UsersController {
         
         public function view($slug = null) {
                 try {
-			$user = $this->{$this->modelClass}->view($slug);
+			            $user = $this->{$this->modelClass}->view($slug);
                         $this->set('user', $user);
                         $this->set('title_for_layout', ucfirst($user[$this->modelClass]['username']) . '\'s Profile'); //Sets page title
-		} catch (Exception $e) {
-			$this->Session->setFlash($e->getMessage());
-			$this->redirect('/');
-		}            
+    		} catch (Exception $e) {
+    			$this->Session->setFlash($e->getMessage());
+    			$this->redirect('/');
+    		}            
+        }
+
+        public function viewbugs($user_id = null) {
+            if (!$this->{$this->modelClass}->exists($user_id)) {
+                throw new NotFoundException(__('Invalid user'));
+            }
+            
+            $user = $this->{$this->modelClass}->find('first', array(
+                'conditions' => array($this->modelClass . '.id' => $user_id),
+                $this->alias . '.active' => 1,
+                $this->alias . '.email_verified' => 1));
+
+            if (empty($user)) {
+                throw new NotFoundException(__('The user does not exist.'));
+            }
+            
+            $this->set('title_for_layout', ucfirst($user[$this->modelClass]['username']) . '\'s Bugs'); 
+
+            $bugcount = $this->{$this->modelClass}->Bug->find('count', array(
+                'conditions' => array('Bug.user_id' => $user_id)
+            ));
+            
+            $bugs = $this->{$this->modelClass}->Bug->find('all', array(
+                'conditions' => array('Bug.user_id' => $user_id)
+            ));
+
+            $this->set('bugcount', $bugcount);
+            $this->set(compact('bugs'));
         }
         
         public function delete_profile_photo($id = null){
@@ -99,13 +127,13 @@ class AppUsersController extends UsersController {
         }
             
         public function delete($id = null) {
-		$this->{$this->modelClass}->id = $id;
-		if (!$this->{$this->modelClass}->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
+    		$this->{$this->modelClass}->id = $id;
+    		if (!$this->{$this->modelClass}->exists()) {
+    			throw new NotFoundException(__('Invalid user'));
+    		}
                 $this->request->onlyAllow('post', 'delete');
                 
-		//Perform delete
+		    //Perform delete
                 if ($this->{$this->modelClass}->delete()) {
                     //Logout/destroy session
                     $user = $this->Auth->user();
