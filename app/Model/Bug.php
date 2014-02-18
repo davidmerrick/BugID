@@ -1,7 +1,9 @@
 <?php
+
 App::uses('AppModel', 'Model', 'Debugger', 'CakeLog');
 
 class Bug extends AppModel {
+
     //Add search to Bug model
     public $actsAs = array('Search.Searchable', 'Containable');
     public $filterArgs = array(
@@ -54,12 +56,12 @@ class Bug extends AppModel {
 				'required' => false,
 			),
 		),
-                'bug_photo' => array(
-                        'required' => array(
-                                'required' => TRUE,
-                                'message' => 'An image is required.',
-			),
-                        'uploadError' => array(
+        'bug_photo_raw' => array(
+            'required' => array(
+                'required' => TRUE,
+                'message' => 'An image is required.',
+		    ),
+            'uploadError' => array(
 				'rule' => 'uploadError',
 				'message' => 'The image upload failed.',
 				'allowEmpty' => TRUE,
@@ -71,11 +73,11 @@ class Bug extends AppModel {
 			),
 			'processImageUpload' => array(
 				'rule' => array('processImageUpload',
-				'message' => 'Unable to process image upload.',
-				'allowEmpty' => TRUE, 
+				    'message' => 'Unable to process image upload.',
+				    'allowEmpty' => TRUE, 
 				),
 			),
-                    ),
+        ),
 	);
         
         public function beforeDelete(){
@@ -93,19 +95,39 @@ class Bug extends AppModel {
         
         //Handles the upload of images
         public function processImageUpload($check = array()){
-                if(!is_uploaded_file($check['bug_photo']['tmp_name'])){
-			return FALSE;
-		}
-                $extension = pathinfo($check['bug_photo']['name'], PATHINFO_EXTENSION);
-                //Generate a random string for the filename based on the MD5 hash of the file
-                $filename = uniqid(md5_file($check['bug_photo']['tmp_name'])) . "." . $extension;
-		if(!move_uploaded_file($check['bug_photo']['tmp_name'], WWW_ROOT . 'img' . DS . 'uploads' . DS . $filename)){
+
+            // Where to store the images
+            $bug_photos_dir = 'bug_photos';
+            $bug_photos_raw_dir = 'bug_photos_raw';
+
+            if(!is_uploaded_file($check['bug_photo_raw']['tmp_name'])){
+			 return FALSE;
+		    }
+
+            $extension = pathinfo($check['bug_photo_raw']['name'], PATHINFO_EXTENSION);
+            //Generate a random string for the filename based on the MD5 hash of the file
+            $filename = uniqid(md5_file($check['bug_photo_raw']['tmp_name']));
+
+            $raw_photo = WWW_ROOT . 'img' . DS . $bug_photos_raw_dir . DS . $filename . "." . $extension;
+		if(!move_uploaded_file($check['bug_photo_raw']['tmp_name'], $raw_photo)){
 			return FALSE;	
 		}
-                //Set permissions on the file
-		chmod(WWW_ROOT . 'img' . DS . 'uploads' . DS . $filename, 0755);
-                $this->data[$this->alias]['bug_photo'] = 'uploads' . DS . $filename;
-		return TRUE;
+        
+        //Set permissions on the file
+        chmod($raw_photo, 0755);
+        $this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
+		
+        //Convert the image 
+        //Save it as same filename but in the bug_photos directory
+        $compressed_photo = WWW_ROOT . 'img' . DS . $bug_photos_dir . DS . $filename . ".jpeg"; 
+        exec('/usr/bin/convert -size 720x720 ' . $raw_photo . ' ' . $compressed_photo);
+        if(!file_exists($compressed_photo)){
+            return FALSE;
+        }
+        chmod($compressed_photo, 0755);
+        $this->data[$this->alias]['bug_photo'] = $bug_photos_dir . DS . $filename . ".jpeg";
+
+        return TRUE;
 	}
         
         public function isOwnedBy($bug, $user) {

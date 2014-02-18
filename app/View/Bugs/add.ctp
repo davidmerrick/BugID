@@ -3,7 +3,7 @@
 	<fieldset>
 		<legend><?php echo __('Add Bug'); ?></legend>
 	<?php
-		echo $this->Form->input('bug_photo', array('type' => 'file'));
+		echo $this->Form->input('bug_photo_raw', array('type' => 'file'));
                 
                 //Set smallest bug size to 0 mm and largest to 800
                 echo $this->Form->input('bug_size', array('label' => 'Bug Size (mm)', 'min' => '0', 'max' => '800'));

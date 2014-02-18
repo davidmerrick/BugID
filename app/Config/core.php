@@ -385,3 +385,8 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+//Constants for where to store bug photos and raw photos
+//@todo: how to define constants in cakePHP?
+//Configure::write('BUG_PHOTOS_DIR','bug_photos');
+//Configure::write('BUG_PHOTOS_RAW_DIR','bug_photos_raw');

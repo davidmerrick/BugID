@@ -88,9 +88,8 @@ class AppUsersController extends UsersController {
             }
             
             $user = $this->{$this->modelClass}->find('first', array(
-                'conditions' => array($this->modelClass . '.id' => $user_id),
-                $this->alias . '.active' => 1,
-                $this->alias . '.email_verified' => 1));
+                'conditions' => array($this->modelClass . '.id' => $user_id)
+            ));
 
             if (empty($user)) {
                 throw new NotFoundException(__('The user does not exist.'));
@@ -102,12 +101,14 @@ class AppUsersController extends UsersController {
                 'conditions' => array('Bug.user_id' => $user_id)
             ));
             
-            $bugs = $this->{$this->modelClass}->Bug->find('all', array(
-                'conditions' => array('Bug.user_id' => $user_id)
-            ));
+            $this->paginate['Bug']['order'] = array('Bug.created' => 'DESC');
+            $workers = $this->paginate('Bug', array('Bug.user_id' => $user_id));
+            if ($bugs) {
+                $this->set('bugs', $bugs);
+            }
 
             $this->set('bugcount', $bugcount);
-            $this->set(compact('bugs'));
+            //$this->set(compact('bugs'));
         }
         
         public function delete_profile_photo($id = null){

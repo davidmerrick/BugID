@@ -2,11 +2,25 @@
 App::uses('User', 'Users.Model');
 class AppUser extends User {
         
+        public $useTable = 'users';
+
+        public $name = 'AppUser';
+
         protected function _setupBehaviors() {
             parent::_setupBehaviors();
             if (class_exists('Containable')) {
 			$this->actsAs[] = 'Containable';
             }
+        }
+        
+        protected function _setupPagination() {
+            $this->Paginator->settings = array(
+                'limit' => 12,
+                //'conditions' => array(
+                //    $this->modelClass . '.active' => 1,
+                //    $this->modelClass . '.email_verified' => 1
+                //)
+            );
         }
         
         public function __construct($id = false, $table = null, $ds = null) {
