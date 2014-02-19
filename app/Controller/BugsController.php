@@ -13,6 +13,13 @@ class BugsController extends AppController {
             )
         );
         
+        public function beforeFilter(){
+        	parent::beforeFilter();
+        	if (($this->request->isPost() || $this->request->isPut()) && empty($_POST) && empty($_FILES)) {
+    			$this->Security->csrfCheck = false;
+		}
+        }
+
         public function find() {
             $this->set('title_for_layout', 'Find Bugs'); //Sets page title
             $this->Prg->commonProcess();

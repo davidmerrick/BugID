@@ -91,6 +91,11 @@ class Bug extends AppModel {
                     unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo']);
                 }
             }
+            if(!empty($info[$this->alias]['bug_photo_raw'])){
+                if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_raw'])){
+                    unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_raw']);
+                }
+            }
         }
         
         //Handles the upload of images
