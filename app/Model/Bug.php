@@ -96,6 +96,11 @@ class Bug extends AppModel {
                     unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_raw']);
                 }
             }
+            if(!empty($info[$this->alias]['bug_photo_thumbnail'])){
+                if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_thumbnail'])){
+                    unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_thumbnail']);
+                }
+            }
         }
         
         //Handles the upload of images
@@ -104,6 +109,7 @@ class Bug extends AppModel {
             // Where to store the images
             $bug_photos_dir = 'bug_photos';
             $bug_photos_raw_dir = 'bug_photos_raw';
+            $bug_photos_thumbnails_dir = 'bug_photos_thumbnails';
 
             if(!is_uploaded_file($check['bug_photo_raw']['tmp_name'])){
 			 return FALSE;
@@ -122,7 +128,7 @@ class Bug extends AppModel {
         chmod($raw_photo, 0755);
         $this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
 		
-        //Convert the image 
+        //Convert the image for web resolution
         //Save it as same filename but in the bug_photos directory
         $compressed_photo = WWW_ROOT . 'img' . DS . $bug_photos_dir . DS . $filename . ".jpeg"; 
         exec('/usr/bin/convert -size 720x720 ' . $raw_photo . ' ' . $compressed_photo);
@@ -131,7 +137,17 @@ class Bug extends AppModel {
         }
         chmod($compressed_photo, 0755);
         $this->data[$this->alias]['bug_photo'] = $bug_photos_dir . DS . $filename . ".jpeg";
-
+            
+        //Convert the image to thumbnail
+        //Save it as same filename but in the bug_photos directory
+        $thumbnail = WWW_ROOT . 'img' . DS . $bug_photos_thumbnails_dir . DS . $filename . ".jpeg"; 
+        exec('/usr/bin/convert -size 100x100 ' . $raw_photo . ' ' . $thumbnail);
+        if(!file_exists($thumbnail)){
+            return FALSE;
+        }
+        chmod($thumbnail, 0755);
+        $this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
+        
         return TRUE;
 	}
         
