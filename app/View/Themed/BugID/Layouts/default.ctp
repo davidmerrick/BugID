@@ -1,4 +1,4 @@
-<?php $logotext = 'BugID: I need to identify this bug!!'; ?>
+<?php $logotext = 'BugBook'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +10,20 @@
 		echo $this->Html->meta('icon');
 		echo $this->fetch('meta');
 		echo $this->Html->css('bugid');
-                echo $this->fetch('css');
-                echo $this->fetch('script');
-                echo $this->Html->script('jquery');
-                echo $this->Html->script('bugid');
+        echo $this->fetch('css');
+        echo $this->fetch('script');
+        echo $this->Html->script('jquery');
+        echo $this->Html->script('bugid');
+        
+        //For tab UI elements (So we can have thumbnail view and index view on same page)
+        echo $this->Html->script('jquery-ui-1.10.4.custom.js');
+        echo $this->Html->css('cupertino/jquery-ui-1.10.4.custom.css');          
 	?>
+    <script>
+      $(function() {
+        $( "#tabs" ).tabs();
+      });
+    </script>
 </head>
 <body>
 	<div id="container">
@@ -31,6 +40,9 @@
 		<div id="footer">
 		</div>
 	</div>
-        <?php //echo $this->element('sql_dump'); ?>
+        <?php 
+            //For deBUGging 
+            //echo $this->element('sql_dump'); 
+        ?>
 </body>
 </html>
