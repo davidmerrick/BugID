@@ -17,7 +17,7 @@ class BugsController extends AppController {
         	parent::beforeFilter();
         	if (($this->request->isPost() || $this->request->isPut()) && empty($_POST) && empty($_FILES)) {
     			$this->Security->csrfCheck = false;
-		}
+		    }
         }
 
         public function find() {
@@ -46,13 +46,6 @@ class BugsController extends AppController {
                 $this->set(compact('bugs'));
 	}
         
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function view($id = null) {
 		if (!$this->Bug->exists($id)) {
 			throw new NotFoundException(__('Invalid bug'));
@@ -72,18 +65,47 @@ class BugsController extends AppController {
 	}
         
 	public function add() {
-		if ($this->request->is('post')) {
-			$this->request->data['Bug']['user_id'] = $this->Auth->user('id');
-                        $this->Bug->create();
-			$data = $this->request->data['Bug'];
-                        if ($this->Bug->save($data)) {
-				$this->Session->setFlash(__('The bug has been saved.'));
-				return $this->redirect(array('action' => 'view', $this->Bug->id));
-			} else {
-				$this->Session->setFlash(__('The bug could not be saved. Please, try again.'));
-			}
-		}
-	}
+		//Todo: have it return the validation error on the bug file field.
+        //Todo: If one image can't be saved, should it fail on all of them? This is current behavior.
+        
+        if ($this->request->is('post')) {
+            
+            $this->request->data['Bug']['user_id'] = $this->Auth->user('id');
+                        
+            $data = $this->request->data['Bug'];
+
+            $errors = FALSE; // Tracks if there were errors during processing 
+            $i = 0; //Counter for position in bug_photo_raw array
+            foreach($data['bug_photo_raw'] as $bug_photo){
+                $this->Bug->create();
+                $tmp_data = $data;
+                $tmp_data['bug_photo_raw'] = $data['bug_photo_raw'][$i];
+
+                if (!$this->Bug->save($tmp_data)) {    
+                    if(sizeof($data['bug_photo_raw']) > 1){
+                        $this->Session->setFlash(__('One of the bugs could not be saved. Please, try again.'));
+                    } else {
+                        $this->Session->setFlash(__('The bug could not be saved. Please, try again.'));
+                    }
+                    $errors = TRUE;
+                    break;
+                }
+                $i++;
+            }   
+            
+            if(!$errors){
+                if($i > 1){
+                    $this->Session->setFlash(__('The bugs have been saved.'));
+                    //Todo: change this to a view of just the bugs they just uploaded
+                    return $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The bug has been saved.'));
+                    //Redirect to a view of just this bug
+                    return $this->redirect(array('action' => 'view', $this->Bug->id));
+                }
+            }
+	   }
+    }
         
 	public function edit($id = null) {
 		if (!$this->Bug->exists($id)) {
@@ -92,7 +114,7 @@ class BugsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			$data = $this->request->data['Bug'];
 
-                        //Only allow certain fields to be updated
+                        //Only allow certain fields to be updated. Don't allow photo to be updated.
                         if ($this->Bug->save($data, true, array(
                             'bug_size', 
                             'specimen_code', 
@@ -144,11 +166,6 @@ class BugsController extends AppController {
 		$this->set('bug', $this->Bug->find('first', $options));
 	}
 
-/**
- * admin_add method
- *
- * @return void
- */
 	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Bug->create();
@@ -161,13 +178,6 @@ class BugsController extends AppController {
 		}
 	}
 
-/**
- * admin_edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function admin_edit($id = null) {
 		if (!$this->Bug->exists($id)) {
 			throw new NotFoundException(__('Invalid bug'));
@@ -185,13 +195,6 @@ class BugsController extends AppController {
 		}
 	}
 
-/**
- * admin_delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function admin_delete($id = null) {
 		$this->Bug->id = $id;
 		if (!$this->Bug->exists()) {
