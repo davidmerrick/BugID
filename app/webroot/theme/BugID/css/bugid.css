@@ -12,6 +12,24 @@
 	padding:0;
 }
 
+/* Thumbnail view */
+
+.bug_thumbnail{
+    width: 200px;
+    height: 200px;
+    float: left;
+    text-align: center;
+}
+
+.bug_thumbnail img {
+    margin-left:auto;
+    margin-right: auto;
+}
+
+#bug_thumbnails_footer{
+    clear: both;
+}
+
 /** General Style Info **/
 body {
 	background:#3B5998;
@@ -19,6 +37,11 @@ body {
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
 	margin: 0;
+}
+
+/* Thumbnail in bug details view */
+.bug_details_thumbnail{
+    max-height: 50px;
 }
 
 .bug_photo, .profile_photo {
@@ -127,6 +150,8 @@ p {
     right: 0px;
     top: 25px;
     width: 400px;
+    /* Set z-index to prevent it appearing behind tabs */
+    z-index: 1000; 
 }
 
 #loginbar-popover form .input{

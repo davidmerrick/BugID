@@ -6,16 +6,34 @@
         //Tabs (for list view and thumbnail view)
         echo '<div id="tabs">';
             echo '<ul>';
-                echo '<li><a href="#tabs-1">Thumbnails</a></li>';
-                echo '<li><a href="#tabs-2">List View</a></li>';
+                echo '<li><a href="#tabs-1">Thumbnail View</a></li>';
+                echo '<li><a href="#tabs-2">Details View</a></li>';
             echo '</ul>';
             echo '<div id="tabs-1">';
-            echo '<p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>';
+                foreach ($bugs as $bug){
+                    echo '<div class="bug_thumbnail">';
+                        if($bug['Bug']['bug_photo_thumbnail']){
+                            //Todo: turn this into a link
+                            echo $this->Html->image($bug['Bug']['bug_photo_thumbnail']);
+                        }
+                        echo '<br />';
+                        echo h($bug['Bug']['species_name']);
+                        echo '<br />';
+                        echo 'Uploaded by: ' . $this->Html->link(($bug['User']['username']), array('controller' => 'app_users', 'action' => 'view', $bug['Bug']['user_id']));
+                        echo '<br />';
+                        echo 'On ' . h($this->Time->nice($bug['Bug']['created']));
+                    echo '</div>';
+                }
+                //for styling; bug thumbnails are floated left so this prevents other content creeping up
+                echo '<div id="bug_thumbnails_footer"></div>';
             echo '</div>';
             echo '<div id="tabs-2">';
                 //Table stuff
                 echo '<table cellpadding="0" cellspacing="0">';
                     echo '<tr>';
+                        echo '<th>';
+                            echo 'Thumbnail';
+                        echo '</th>';
                         echo '<th>';
                             echo $this->Paginator->sort('species_name');
                         echo '</th>';
@@ -32,6 +50,9 @@
                     echo '</tr>';
                     foreach($bugs as $bug){
                         echo '<tr>';
+                            echo '<td>';
+                                echo $this->Html->image($bug['Bug']['bug_photo_thumbnail'], array('class' => 'bug_details_thumbnail'));
+                            echo '</td>';
                             echo '<td>';
                                 echo h($bug['Bug']['species_name']);
                             echo '</td>';
