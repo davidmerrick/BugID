@@ -13,8 +13,7 @@
                 foreach ($bugs as $bug){
                     echo '<div class="bug_thumbnail">';
                         if($bug['Bug']['bug_photo_thumbnail']){
-                            //Todo: turn this into a link
-                            echo $this->Html->image($bug['Bug']['bug_photo_thumbnail']);
+                            echo $this->Html->image($bug['Bug']['bug_photo_thumbnail'], array('url' => array('action' => 'view', $bug['Bug']['bug_id'])));
                         }
                         echo '<br />';
                         echo h($bug['Bug']['species_name']);
@@ -51,7 +50,7 @@
                     foreach($bugs as $bug){
                         echo '<tr>';
                             echo '<td>';
-                                echo $this->Html->image($bug['Bug']['bug_photo_thumbnail'], array('class' => 'bug_details_thumbnail'));
+                                echo $this->Html->image($bug['Bug']['bug_photo_thumbnail'], array('class' => 'bug_details_thumbnail', 'url' => array('action' => 'view', $bug['Bug']['bug_id'])));
                             echo '</td>';
                             echo '<td>';
                                 echo h($bug['Bug']['species_name']);
