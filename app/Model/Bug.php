@@ -145,7 +145,8 @@ class Bug extends AppModel {
             //Convert the image to thumbnail
             //Save it as same filename but in the bug_photos directory
             $thumbnail = WWW_ROOT . 'img' . DS . $bug_photos_thumbnails_dir . DS . $filename . ".jpeg"; 
-            exec('/usr/bin/convert -size 100x100 ' . $raw_photo . ' ' . $thumbnail);
+            //Make sure thumbnail dimensions correspond with how they're displayed (see bugid.css)
+            exec('/usr/bin/convert -size 200x200 ' . $raw_photo . ' ' . $thumbnail);
             if(!file_exists($thumbnail)){
                 return FALSE;
             }

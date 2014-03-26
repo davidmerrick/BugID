@@ -20,8 +20,14 @@
         echo $this->Html->css('cupertino/jquery-ui-1.10.4.custom.css');          
 	?>
     <script>
-      $(function() {
-        $( "#tabs" ).tabs();
+      var activeTab = 0;
+      $(document).ready(function() {
+        $("#tabs").tabs({active: activeTab});
+          
+        //Save the state of the active tab for AJAX pagination call
+        $('#tabs a').click(function(e) {
+            activeTab = $('#tabs').tabs("option", "active");
+        });
       });
     </script>
 </head>
