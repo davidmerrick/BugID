@@ -43,7 +43,7 @@
 		</div>
 	</div>
         <?php 
-            echo $this->Js->writeBuffer(); // Write cached scripts. (For AJAX pagination)
+            //echo $this->Js->writeBuffer(); // Write cached scripts. (For AJAX pagination)
         ?>
 </body>
 </html>

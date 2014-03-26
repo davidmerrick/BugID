@@ -24,4 +24,5 @@
             echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
         echo '</div>';
     echo '</div>';
+    echo $this->Js->writeBuffer(); // Write cached scripts. (For AJAX pagination)
 ?>
