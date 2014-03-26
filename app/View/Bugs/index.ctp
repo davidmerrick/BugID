@@ -1,4 +1,7 @@
 <?php 
+    //AJAX pagination
+    $this->Paginator->options(array('update' => '#content', 'evalScripts' => true));
+
     $user = $this->Session->read('Auth.User');
     echo '<div class="bugs index">';
         echo '<h2>' . __('All Bugs') . '</h2>';

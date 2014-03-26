@@ -9,8 +9,10 @@
             echo '</ul>';
             echo '<div id="tabs-1">';
                 foreach ($bugs as $bug){
-                    echo '<div class="bug_thumbnail">';
-                        echo $this->Html->image($bug['Bug']['bug_photo_thumbnail'], array('url' => array('action' => 'view', $bug['Bug']['bug_id'])));
+                    echo '<div class="bug_thumbnail_box">';
+                        echo '<div class="image_wrapper">';
+                            echo $this->Html->image($bug['Bug']['bug_photo_thumbnail'], array('url' => array('action' => 'view', $bug['Bug']['bug_id'])));
+                        echo '</div>';
                         echo '<br />';
                         echo h($bug['Bug']['species_name']);
                         echo '<br />';

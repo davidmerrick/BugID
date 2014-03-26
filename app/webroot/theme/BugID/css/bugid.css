@@ -14,16 +14,24 @@
 
 /* Thumbnail view */
 
-.bug_thumbnail{
-    width: 200px;
-    height: 200px;
+.bug_thumbnail_box{
+    width: 250px;
+    height: 250px;
     float: left;
     text-align: center;
+    margin: 20px;
 }
 
-.bug_thumbnail img {
+.image_wrapper {
+    width: 150px;
+    height: 150px;
     margin-left:auto;
     margin-right: auto;
+}
+
+.image_wrapper a img {
+    max-height: 100%;
+    min-height: 100%;
 }
 
 #bug_thumbnails_footer{

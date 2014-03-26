@@ -3,10 +3,14 @@ App::uses('AppController', 'Controller');
 
 class BugsController extends AppController {
         
-    public $components = array('Paginator', 'Search.Prg');
+    public $components = array('Paginator', 'Search.Prg', 'RequestHandler');
     public $presetVars = true; // using the model configuration
     public $uses = array('Bug', 'User', 'Batch');
 
+    
+    //AJAX pagination
+    public $helpers = array('Js');
+    
     public $paginate = array(
         'order' => array(
             'Bug.created' => 'desc'
@@ -29,17 +33,10 @@ class BugsController extends AppController {
         
 	public function index() {
 		//Set recursive to 1 to retrieve users associated with the bug
-                $this->Bug->recursive = 1;
-                $this->set('title_for_layout', 'All Bugs'); //Sets page title
-                $this->set('bugs', $this->Paginator->paginate());
-	}
-    
-    //Todo: combine index and index_thumbnails into one view and use Javascript to change the layout
-    public function index_thumbnails() {
-		//Set recursive to 1 to retrieve users associated with the bug
-                $this->Bug->recursive = 1;
-                $this->set('title_for_layout', 'All Bugs'); //Sets page title
-                $this->set('bugs', $this->Paginator->paginate());
+        $this->Bug->recursive = 1;
+        $this->set('title_for_layout', 'All Bugs'); //Sets page title
+        
+        $this->set('bugs', $this->Paginator->paginate());
 	}
         
     //Shows a list of bugs current user has uploaded
@@ -177,6 +174,8 @@ class BugsController extends AppController {
 		} else {
 			$this->Session->setFlash(__('The bug could not be deleted. Please, try again.'));
 		}
+        
+        //Todo: If they're on an index page, mybugs, or batch page, redirect them back to that page
 		return $this->redirect(array('action' => 'index'));
 	}
 

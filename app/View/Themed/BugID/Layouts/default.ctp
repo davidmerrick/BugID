@@ -41,8 +41,7 @@
 		</div>
 	</div>
         <?php 
-            //For deBUGging 
-            //echo $this->element('sql_dump'); 
+            echo $this->Js->writeBuffer(); // Write cached scripts. (For AJAX pagination)
         ?>
 </body>
 </html>
