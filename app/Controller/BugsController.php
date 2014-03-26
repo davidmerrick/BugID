@@ -3,29 +3,29 @@ App::uses('AppController', 'Controller');
 
 class BugsController extends AppController {
         
-        public $components = array('Paginator', 'Search.Prg');
-        public $presetVars = true; // using the model configuration
-        public $uses = array('Bug', 'User');
-        
-        public $paginate = array(
-            'order' => array(
-                'Bug.created' => 'desc'
-            )
-        );
-        
-        public function beforeFilter(){
-        	parent::beforeFilter();
-        	if (($this->request->isPost() || $this->request->isPut()) && empty($_POST) && empty($_FILES)) {
-    			$this->Security->csrfCheck = false;
-		    }
-        }
+    public $components = array('Paginator', 'Search.Prg');
+    public $presetVars = true; // using the model configuration
+    public $uses = array('Bug', 'User', 'Batch');
 
-        public function find() {
-            $this->set('title_for_layout', 'Find Bugs'); //Sets page title
-            $this->Prg->commonProcess();
-            $this->Paginator->settings['conditions'] = $this->Bug->parseCriteria($this->Prg->parsedParams());
-            $this->set('bugs', $this->Paginator->paginate());
+    public $paginate = array(
+        'order' => array(
+            'Bug.created' => 'desc'
+        )
+    );
+        
+    public function beforeFilter(){
+        parent::beforeFilter();
+        if (($this->request->isPost() || $this->request->isPut()) && empty($_POST) && empty($_FILES)) {
+            $this->Security->csrfCheck = false;
         }
+    }
+
+    public function find() {
+        $this->set('title_for_layout', 'Find Bugs'); //Sets page title
+        $this->Prg->commonProcess();
+        $this->Paginator->settings['conditions'] = $this->Bug->parseCriteria($this->Prg->parsedParams());
+        $this->set('bugs', $this->Paginator->paginate());
+    }
         
 	public function index() {
 		//Set recursive to 1 to retrieve users associated with the bug
@@ -42,7 +42,7 @@ class BugsController extends AppController {
                 $this->set('bugs', $this->Paginator->paginate());
 	}
         
-        //Shows a list of bugs current user has uploaded
+    //Shows a list of bugs current user has uploaded
 	public function mybugs() {
                 $this->set('title_for_layout', 'My Bugs'); //Sets page title
 		
@@ -62,7 +62,7 @@ class BugsController extends AppController {
 		$this->set('bug', $this->Bug->find('first', $options));
 	}
 
-        public function viewbugs($userId = null) {
+    public function viewbugs($userId = null) {
 		$this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
                 //Do a custom pagination query for bugs belonging to user
                 $this->Paginator->settings = array(
@@ -78,39 +78,43 @@ class BugsController extends AppController {
         
         if ($this->request->is('post')) {
             
-            $this->request->data['Bug']['user_id'] = $this->Auth->user('id');
-                        
-            $data = $this->request->data['Bug'];
-
-            $errors = FALSE; // Tracks if there were errors during processing 
+            $data = $this->request->data;
+            $data['Bug']['user_id'] = $this->Auth->user('id');            
+            //$data['Batch']['batch_name'] = "test";
+            
             $i = 0; //Counter for position in bug_photo_raw array
-            foreach($data['bug_photo_raw'] as $bug_photo){
+            
+            $this->Batch->create();
+            if(!$this->Batch->save(array('Batch' => array('batch_name' => 'test')))){
+                $this->Session->setFlash(__('Error saving batch'));
+            }
+            $data['Bug']['batch_id'] = $this->Batch->id;
+            
+            foreach($data['Bug']['bug_photo_raw'] as $bug_photo){
                 $this->Bug->create();
+                
                 $tmp_data = $data;
-                $tmp_data['bug_photo_raw'] = $data['bug_photo_raw'][$i];
-
-                if (!$this->Bug->save($tmp_data)) {    
-                    if(sizeof($data['bug_photo_raw']) > 1){
+                $tmp_data['Bug']['bug_photo_raw'] = $data['Bug']['bug_photo_raw'][$i];
+                                
+                if (!$this->Bug->saveAll($tmp_data)) {    
+                    if(sizeof($data['Bug']['bug_photo_raw']) > 1){
                         $this->Session->setFlash(__('One of the bugs could not be saved. Please, try again.'));
                     } else {
                         $this->Session->setFlash(__('The bug could not be saved. Please, try again.'));
                     }
-                    $errors = TRUE;
-                    break;
+                    return;
                 }
                 $i++;
             }   
             
-            if(!$errors){
-                if($i > 1){
-                    $this->Session->setFlash(__('The bugs have been saved.'));
-                    //Todo: change this to a view of just the bugs they just uploaded
-                    return $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Session->setFlash(__('The bug has been saved.'));
-                    //Redirect to a view of just this bug
-                    return $this->redirect(array('action' => 'view', $this->Bug->id));
-                }
+            if($i > 1){
+                $this->Session->setFlash(__('The bugs have been saved.'));
+                //Todo: change this to a view of just the bugs they just uploaded
+                return $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The bug has been saved.'));
+                //Redirect to a view of just this bug
+                return $this->redirect(array('action' => 'view', $this->Bug->id));
             }
 	   }
     }

@@ -6,6 +6,7 @@ class Bug extends AppModel {
 
     //Add search to Bug model
     public $actsAs = array('Search.Searchable', 'Containable');
+    
     public $filterArgs = array(
         'filter' => array('type' => 'query', 'method' => 'orConditions')
     );
@@ -120,36 +121,36 @@ class Bug extends AppModel {
             $filename = uniqid(md5_file($check['bug_photo_raw']['tmp_name']));
 
             $raw_photo = WWW_ROOT . 'img' . DS . $bug_photos_raw_dir . DS . $filename . "." . $extension;
-		if(!move_uploaded_file($check['bug_photo_raw']['tmp_name'], $raw_photo)){
-			return FALSE;	
-		}
-        
-        //Set permissions on the file
-        chmod($raw_photo, 0755);
-        $this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
-		
-        //Convert the image for web resolution
-        //Save it as same filename but in the bug_photos directory
-        $compressed_photo = WWW_ROOT . 'img' . DS . $bug_photos_dir . DS . $filename . ".jpeg"; 
-        exec('/usr/bin/convert -size 720x720 ' . $raw_photo . ' ' . $compressed_photo);
-        if(!file_exists($compressed_photo)){
-            return FALSE;
-        }
-        chmod($compressed_photo, 0755);
-        $this->data[$this->alias]['bug_photo'] = $bug_photos_dir . DS . $filename . ".jpeg";
-            
-        //Convert the image to thumbnail
-        //Save it as same filename but in the bug_photos directory
-        $thumbnail = WWW_ROOT . 'img' . DS . $bug_photos_thumbnails_dir . DS . $filename . ".jpeg"; 
-        exec('/usr/bin/convert -size 100x100 ' . $raw_photo . ' ' . $thumbnail);
-        if(!file_exists($thumbnail)){
-            return FALSE;
-        }
-        chmod($thumbnail, 0755);
-        $this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
-        
-        return TRUE;
-	}
+            if(!move_uploaded_file($check['bug_photo_raw']['tmp_name'], $raw_photo)){
+                return FALSE;	
+            }
+
+            //Set permissions on the file
+            chmod($raw_photo, 0755);
+            $this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
+
+            //Convert the image for web resolution
+            //Save it as same filename but in the bug_photos directory
+            $compressed_photo = WWW_ROOT . 'img' . DS . $bug_photos_dir . DS . $filename . ".jpeg"; 
+            exec('/usr/bin/convert -size 720x720 ' . $raw_photo . ' ' . $compressed_photo);
+            if(!file_exists($compressed_photo)){
+                return FALSE;
+            }
+            chmod($compressed_photo, 0755);
+            $this->data[$this->alias]['bug_photo'] = $bug_photos_dir . DS . $filename . ".jpeg";
+
+            //Convert the image to thumbnail
+            //Save it as same filename but in the bug_photos directory
+            $thumbnail = WWW_ROOT . 'img' . DS . $bug_photos_thumbnails_dir . DS . $filename . ".jpeg"; 
+            exec('/usr/bin/convert -size 100x100 ' . $raw_photo . ' ' . $thumbnail);
+            if(!file_exists($thumbnail)){
+                return FALSE;
+            }
+            chmod($thumbnail, 0755);
+            $this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
+
+            return TRUE;
+	   }
         
         public function isOwnedBy($bug, $user) {
             return $this->field('bug_id', array('bug_id' => $bug, 'user_id' => $user)) === $bug;
@@ -159,8 +160,10 @@ class Bug extends AppModel {
             'User' => array(
                 'className' => 'User',
                 'foreignKey' => 'user_id'
-             )
+             ),
+            'Batch' => array(
+                'className' => 'Batch',
+                'foreignKey' => 'batch_id'
+            )
         );
-        
-        
 }

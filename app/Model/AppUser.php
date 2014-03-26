@@ -16,10 +16,6 @@ class AppUser extends User {
         protected function _setupPagination() {
             $this->Paginator->settings = array(
                 'limit' => 12,
-                //'conditions' => array(
-                //    $this->modelClass . '.active' => 1,
-                //    $this->modelClass . '.email_verified' => 1
-                //)
             );
         }
         
@@ -44,13 +40,6 @@ class AppUser extends User {
                 )
             );
         }
-        
-        public $hasMany = array(
-            'Bug' => array(
-                'className' => 'Bug',
-                'foreignKey' => 'user_id'
-             )
-        );
         
         public function beforeDelete($cascade = true) {
             //Delete all bugs associated with this user
@@ -169,5 +158,12 @@ class AppUser extends User {
             return false;
         }
     }
+    
+    public $hasMany = array(
+            'Bug' => array(
+                'className' => 'Bug',
+                'foreignKey' => 'user_id'
+             )
+    );
 
 }
