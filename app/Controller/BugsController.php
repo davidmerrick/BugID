@@ -44,14 +44,24 @@ class BugsController extends AppController {
         
     //Shows a list of bugs current user has uploaded
 	public function mybugs() {
-                $this->set('title_for_layout', 'My Bugs'); //Sets page title
-		
-                //Do a custom pagination query for bugs belonging to user
-                $this->Paginator->settings = array(
-                    'conditions' => array('Bug.user_id' => $this->Auth->User('id'))
-                );
-                $bugs = $this->Paginator->paginate();
-                $this->set(compact('bugs'));
+        $this->set('title_for_layout', 'My Bugs'); //Sets page title
+
+        //Do a custom pagination query for bugs belonging to user
+        $this->Paginator->settings = array(
+            'conditions' => array('Bug.user_id' => $this->Auth->User('id'))
+        );
+        $bugs = $this->Paginator->paginate();
+        $this->set(compact('bugs'));
+	}
+    
+    //Shows the last uploaded batch of bugs
+    public function viewbatch($batchId = null) {
+		$this->set('title_for_layout', 'Last Upload'); //Sets page title
+        $this->Paginator->settings = array(
+            'conditions' => array('Bug.batch_id' => $batchId)
+        );
+        $bugs = $this->Paginator->paginate();
+        $this->set(compact('bugs'));
 	}
         
 	public function view($id = null) {
@@ -60,16 +70,6 @@ class BugsController extends AppController {
 		}
 		$options = array('conditions' => array('Bug.' . $this->Bug->primaryKey => $id));
 		$this->set('bug', $this->Bug->find('first', $options));
-	}
-
-    public function viewbugs($userId = null) {
-		$this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
-                //Do a custom pagination query for bugs belonging to user
-                $this->Paginator->settings = array(
-                    'conditions' => array('Bug.user_id' => $userId)
-                );
-                $bugs = $this->Paginator->paginate();
-                $this->set(compact('bugs'));
 	}
         
 	public function add() {
@@ -80,16 +80,16 @@ class BugsController extends AppController {
             
             $data = $this->request->data;
             $data['Bug']['user_id'] = $this->Auth->user('id');            
-            //$data['Batch']['batch_name'] = "test";
-            
-            $i = 0; //Counter for position in bug_photo_raw array
             
             $this->Batch->create();
-            if(!$this->Batch->save(array('Batch' => array('batch_name' => 'test')))){
+            // We don't actually need a "batch name," but cakePHP needs some kind of data saved to
+            // create an instance of a model.
+            if(!$this->Batch->save(array('Batch' => array('batch_name' => '')))){
                 $this->Session->setFlash(__('Error saving batch'));
             }
             $data['Bug']['batch_id'] = $this->Batch->id;
             
+            $i = 0; //Index of position in bug_photo_raw array
             foreach($data['Bug']['bug_photo_raw'] as $bug_photo){
                 $this->Bug->create();
                 
@@ -110,7 +110,7 @@ class BugsController extends AppController {
             if($i > 1){
                 $this->Session->setFlash(__('The bugs have been saved.'));
                 //Todo: change this to a view of just the bugs they just uploaded
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('action' => 'viewbatch', $this->Batch->id));
             } else {
                 $this->Session->setFlash(__('The bug has been saved.'));
                 //Redirect to a view of just this bug
