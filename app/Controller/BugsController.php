@@ -31,6 +31,12 @@ class BugsController extends AppController {
         $this->set('bugs', $this->Paginator->paginate());
     }
         
+    public function ajax_detailview_index(){
+        //Set recursive to 1 to retrieve users associated with the bug
+        $this->Bug->recursive = 1;
+        $this->set('bugs', $this->Paginator->paginate());
+    }
+    
 	public function index() {
 		//Set recursive to 1 to retrieve users associated with the bug
         $this->Bug->recursive = 1;

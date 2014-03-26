@@ -34,7 +34,9 @@
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
+			<div id="main-content">
+                <?php echo $this->fetch('content'); ?>
+            </div>
 			<?php echo $this->Element('sidebar'); ?>
 		</div>
 		<div id="footer">
