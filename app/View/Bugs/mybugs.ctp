@@ -1,7 +1,14 @@
 <?php $user = $this->Session->read('Auth.User'); ?>
 <div class="bugs index">
 	<h2><?php echo __('My Bugs'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	
+    <?php
+    echo $this->Element('Bugs/tabs_mybugs');
+    ?>
+
+<?php
+/*
+<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('species_name'); ?></th>
                         <th><?php echo $this->Paginator->sort('specimen_code'); ?></th>
@@ -17,6 +24,8 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
+*/
+    ?>
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
