@@ -1,14 +1,14 @@
 <div class="bugs form">
 <?php echo $this->Form->create('Bug', array('type' => 'file', 'multiple')); ?>
 	<fieldset>
-		<legend><?php echo __('Add Bug'); ?></legend>
+		<legend><?php echo __('Upload Bugs'); ?></legend>
 	<?php
         //Disable the security component on this field
         //Todo: find a better way to do this
         $this->Form->unlockField('bug_photo_raw');
         
         //Multiple enables multiple bug photos to be selected
-        echo $this->Form->input('bug_photo_raw.', array('type' => 'file', 'multiple', 'label' => 'Bug Photo(s)'));
+        echo $this->Form->input('bug_photo_raw.', array('type' => 'file', 'multiple', 'label' => 'Select one or more bug images'));
         
 
         //Set smallest bug size to 0 mm and largest to 800

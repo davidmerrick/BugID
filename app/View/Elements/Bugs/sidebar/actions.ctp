@@ -6,7 +6,7 @@ if($action != 'add'){
     echo '<h3>' . __('Actions') . '</h3>';
     echo '<ul>';
             echo '<li>';
-                echo $this->Html->link(__('New Bug'), array('action' => 'add')); 
+                echo $this->Html->link(__('Upload Bugs'), array('action' => 'add')); 
             echo '</li>';
             if(isset($bug) && $bug['User']['username'] == $user['username']){
                 if($action == 'view'){

@@ -30,12 +30,6 @@ class BugsController extends AppController {
         $this->Paginator->settings['conditions'] = $this->Bug->parseCriteria($this->Prg->parsedParams());
         $this->set('bugs', $this->Paginator->paginate());
     }
-        
-    public function ajax_detailview_index(){
-        //Set recursive to 1 to retrieve users associated with the bug
-        $this->Bug->recursive = 1;
-        $this->set('bugs', $this->Paginator->paginate());
-    }
     
 	public function index() {
 		//Set recursive to 1 to retrieve users associated with the bug
@@ -76,9 +70,10 @@ class BugsController extends AppController {
 	}
         
 	public function add() {
-		//Todo: have it return the validation error on the bug file field.
+        //Todo: have it return the validation error on the bug file field.
         //Todo: If one image can't be saved, should it fail on all of them? This is current behavior.
         
+        $this->set('title_for_layout', 'Upload Bugs'); //Sets page title
         if ($this->request->is('post')) {
             
             $data = $this->request->data;
@@ -92,6 +87,7 @@ class BugsController extends AppController {
             }
             $data['Bug']['batch_id'] = $this->Batch->id;
             
+            $errorCount = 0;
             $i = 0; //Index of position in bug_photo_raw array
             foreach($data['Bug']['bug_photo_raw'] as $bug_photo){
                 $this->Bug->create();
@@ -101,23 +97,38 @@ class BugsController extends AppController {
                                 
                 if (!$this->Bug->saveAll($tmp_data)) {    
                     if(sizeof($data['Bug']['bug_photo_raw']) > 1){
-                        $this->Session->setFlash(__('One of the bugs could not be saved. Please, try again.'));
+                        $errorCount++;
                     } else {
                         $this->Session->setFlash(__('The bug could not be saved. Please, try again.'));
+                        return;
                     }
-                    return;
                 }
                 $i++;
             }   
             
-            if($i > 1){
-                $this->Session->setFlash(__('The bugs have been saved.'));
-                //Todo: change this to a view of just the bugs they just uploaded
-                return $this->redirect(array('action' => 'viewbatch', $this->Batch->id));
+            //Handle the errors
+            if($errorCount > 0){
+                if($errorCount == $i){ 
+                    //None of the bugs could be uploaded
+                    $this->Session->setFlash(__('None of the bugs could be saved. Please, try again.')); 
+                    return;
+                } else {
+                    if($i > 1){
+                        //More than one bug but not all failed
+                        $this->Session->setFlash(__($errorCount . ' of the bugs could not be uploaded. Please, try again.'));
+                        return $this->redirect(array('action' => 'viewbatch', $this->Batch->id));
+                    } 
+                    //Other case (one bug and it failed) is handled in the loop above
+                }
             } else {
-                $this->Session->setFlash(__('The bug has been saved.'));
-                //Redirect to a view of just this bug
-                return $this->redirect(array('action' => 'view', $this->Bug->id));
+                if($i > 1){
+                    $this->Session->setFlash(__('The bugs have been saved.'));
+                    return $this->redirect(array('action' => 'viewbatch', $this->Batch->id));
+                } else {
+                    $this->Session->setFlash(__('The bug has been saved.'));
+                    //Redirect to a view of just this bug
+                    return $this->redirect(array('action' => 'view', $this->Bug->id));
+                }
             }
 	   }
     }
