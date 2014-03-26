@@ -153,12 +153,27 @@ class BugsController extends AppController {
 
 	public function delete($id = null) {
 		$this->Bug->id = $id;
+        
 		if (!$this->Bug->exists()) {
 			throw new NotFoundException(__('Invalid bug'));
 		}
+        
+        $info = $this->Bug->find('first', array(
+            'conditions' => array('Bug.bug_id' => $this->Bug->id),
+        ));
+        
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Bug->delete()) {
-			$this->Session->setFlash(__('The bug has been deleted.'));
+			//If all the images in a batch have been deleted, delete that batch
+            $batch_count = $this->Bug->find('count', array(
+                    'conditions' => array('Bug.batch_id' => $info['Bug']['batch_id']),
+            ));
+            
+            if($batch_count == 0){
+                $this->Batch->delete($info['Bug']['batch_id']);
+            }
+            
+            $this->Session->setFlash(__('The bug has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The bug could not be deleted. Please, try again.'));
 		}

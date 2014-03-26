@@ -102,6 +102,9 @@ class Bug extends AppModel {
                     unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_thumbnail']);
                 }
             }
+            
+            //Be sure that beforeDelete() returns true, or your delete is going to fail.
+            return true;
         }
         
         //Handles the upload of images
