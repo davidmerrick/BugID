@@ -190,10 +190,20 @@ class BugsController extends AppController {
             $this->Session->setFlash(__('The bug has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The bug could not be deleted. Please, try again.'));
+            return;
 		}
         
-        //Todo: If they're on an index page, mybugs, or batch page, redirect them back to that page
-		return $this->redirect(array('action' => 'index'));
+        //If request is coming from index, mybugs, or batch view, redirect back to that
+        //If the request is coming from a single bug view, redirect back to index
+        //If request referer not set, fallback to redirecting to index
+        $referer = $this->request->referer();
+        //Construct the url to a view and check if it's contained in the referer string
+        if(!isset($referer) || strpos($referer, Router::url(array('controller' => 'bugs', 'action' => 'view')) . '/') != false){
+            //referrer not set or view bug page
+            return $this->redirect(array('action' => 'index'));    
+        } else {
+            return $this->redirect($this->request->referer());    
+        }
 	}
 
 	public function admin_index() {
