@@ -122,6 +122,7 @@ class Bug extends AppModel {
 		//2. Move the raw photo to the raw photo directory, set permissions
 		//3. Convert the raw photo to a web-resolution image, move it to web-resolution directory, set permissions
 		//4. Repeat step 3 for thumbnail image
+		//5. Eventually (fingers crossed) run the raw image through the classifier and set the classification in the $data variable
 		
             	// Where to store the images
 		$bug_photos_raw_dir = 'bug_photos_raw'; //Raw images
