@@ -122,7 +122,7 @@ class Bug extends AppModel {
 		//2. Move the raw photo to the raw photo directory, set permissions
 		//3. Convert the raw photo to a web-resolution image, move it to web-resolution directory, set permissions
 		//4. Repeat step 3 for thumbnail image
-		//5. Eventually (fingers crossed) run the raw image through the classifier and set the classification in the $data variable
+		//5. Eventually (fingers crossed) run the raw image through the classifier 
 		
             	// Where to store the images
 		$bug_photos_raw_dir = 'bug_photos_raw'; //Raw images
@@ -185,6 +185,10 @@ class Bug extends AppModel {
 		chmod($thumbnail, 0755);
 		//Set the data to be passed back to the controller
 		$this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
+		
+		//Todo: Vision algorithm goes here
+		//Use the $data variable to store the result of the classification
+		//This will pass it to the database for storage
 		
 		return TRUE;
 	}
