@@ -116,7 +116,13 @@ class Bug extends AppModel {
         
         //Handles the upload of images
         public function processImageUpload($check = array()){
-
+		//How this works:
+		//
+		//1. Generate a unique filename for the image 
+		//2. Move the raw photo to the raw photo directory, set permissions
+		//3. Convert the raw photo to a web-resolution image, move it to web-resolution directory, set permissions
+		//4. Repeat step 3 for thumbnail image
+		
             	// Where to store the images
 		$bug_photos_raw_dir = 'bug_photos_raw'; //Raw images
 		$bug_photos_dir = 'bug_photos'; //Web-resolution images
