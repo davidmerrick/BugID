@@ -137,10 +137,12 @@ class Bug extends AppModel {
             	//Get the extension of the file
             	$extension = pathinfo($check['bug_photo_raw']['name'], PATHINFO_EXTENSION);
             
+            	// 1. 
             	//Generate a random string for the filename based on the MD5 hash of the file
             	$filename = uniqid(md5_file($check['bug_photo_raw']['tmp_name']));
             	$raw_photo = WWW_ROOT . 'img' . DS . $bug_photos_raw_dir . DS . $filename . "." . $extension;
             	
+            	// 2. 
             	//Change the name of the raw photo and move it to the raw photo directory
             	if(!move_uploaded_file($check['bug_photo_raw']['tmp_name'], $raw_photo)){
                 	return FALSE;	
@@ -152,6 +154,7 @@ class Bug extends AppModel {
             	//Set the data to be passed back to the controller
             	$this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
 
+		// 3. 
 		//Convert the image for web resolution
 		//Save it as same filename but in the bug_photos directory
 		$compressed_photo = WWW_ROOT . 'img' . DS . $bug_photos_dir . DS . $filename . ".jpeg"; 
@@ -170,6 +173,7 @@ class Bug extends AppModel {
 		//Set the data to be passed back to the controller
 		$this->data[$this->alias]['bug_photo'] = $bug_photos_dir . DS . $filename . ".jpeg";
 		
+		// 4. 
 		//Convert the image to thumbnail
 		//Save it as same filename but in the bug_photos directory
 		$thumbnail = WWW_ROOT . 'img' . DS . $bug_photos_thumbnails_dir . DS . $filename . ".jpeg"; 
@@ -186,6 +190,7 @@ class Bug extends AppModel {
 		//Set the data to be passed back to the controller
 		$this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
 		
+		// 5. 
 		//Todo: Vision algorithm goes here
 		//Use the $data variable to store the result of the classification
 		//This will pass it to the database for storage
