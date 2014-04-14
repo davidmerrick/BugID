@@ -118,10 +118,11 @@ class Bug extends AppModel {
         public function processImageUpload($check = array()){
 
             	// Where to store the images
-		$bug_photos_dir = 'bug_photos';
-		$bug_photos_raw_dir = 'bug_photos_raw';
-            	$bug_photos_thumbnails_dir = 'bug_photos_thumbnails';
+		$bug_photos_raw_dir = 'bug_photos_raw'; //Raw images
+		$bug_photos_dir = 'bug_photos'; //Web-resolution images
+            	$bug_photos_thumbnails_dir = 'bug_photos_thumbnails'; //Thumbnails
 
+		//Make sure the file was correctly uploaded
 		if(!is_uploaded_file($check['bug_photo_raw']['tmp_name'])){
 			return FALSE;
 		}
@@ -175,6 +176,7 @@ class Bug extends AppModel {
 		
 		//Set the file permissions
 		chmod($thumbnail, 0755);
+		//Set the data to be passed back to the controller
 		$this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
 		
 		return TRUE;
