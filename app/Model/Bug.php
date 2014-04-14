@@ -60,6 +60,7 @@ class Bug extends AppModel {
 		),
         	//Validation for the image
         	'bug_photo_raw' => array(
+            		//User must upload an image
             		'required' => array(
                 		'required' => TRUE,
                 		'message' => 'An image is required.',
@@ -69,11 +70,15 @@ class Bug extends AppModel {
 				'message' => 'The image upload failed.',
 				'allowEmpty' => TRUE,
 			),
+			//Check the MIME type to make sure it's actually an image (and not a text file or something)
 			'mimeType' => array(
 				'rule' => array('mimeType', array('image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/tiff')),
 				'message' => 'Please only upload images.',
 				'allowEmpty' => TRUE,
 			),
+			//Run it through the processImageUpload method
+			//This takes care of generating thumbnails, web-resolution preview images,
+			//and runs it through the vision algorithm
 			'processImageUpload' => array(
 				'rule' => array('processImageUpload',
 					'message' => 'Unable to process image upload.',
