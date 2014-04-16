@@ -11,6 +11,7 @@ class Bug extends AppModel {
         	'filter' => array('type' => 'query', 'method' => 'orConditions')
 	);
 
+	//OR all the fields together
 	public function orConditions($data = array()) {
 	        $filter = $data['filter'];
 	        $cond = array(
@@ -90,20 +91,26 @@ class Bug extends AppModel {
         
         public function beforeDelete(){
             //delete associated image
+            //Sinve all images share the same filename, this finds all of them
             $info = $this->find('first', array(
                     'conditions' => array($this->alias . '.bug_id' => $this->id),
             ));
             
+            //Delete the preview image
             if(!empty($info[$this->alias]['bug_photo'])){
                 if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo'])){
                     unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo']);
                 }
             }
+            
+            //Delete the raw image
             if(!empty($info[$this->alias]['bug_photo_raw'])){
                 if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_raw'])){
                     unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_raw']);
                 }
             }
+            
+            //Delete the thumbnail
             if(!empty($info[$this->alias]['bug_photo_thumbnail'])){
                 if(file_exists(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_thumbnail'])){
                     unlink(WWW_ROOT . 'img' . DS . $info[$this->alias]['bug_photo_thumbnail']);
