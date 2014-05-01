@@ -68,7 +68,17 @@ class BugsController extends AppController {
 		$options = array('conditions' => array('Bug.' . $this->Bug->primaryKey => $id));
 		$this->set('bug', $this->Bug->find('first', $options));
 	}
-        
+     
+    public function viewbugs($userId = null) {
+                $this->set('title_for_layout', 'User\'s Bugs'); //Sets page title
+                //Do a custom pagination query for bugs belonging to user
+                $this->Paginator->settings = array(
+                'conditions' => array('Bug.user_id' => $userId)
+            );
+            $bugs = $this->Paginator->paginate();
+            $this->set(compact('bugs'));
+	}
+    
 	public function add() {
         //Todo: have it return the validation error on the bug file field.
         //Todo: If one image can't be saved, should it fail on all of them? This is current behavior.

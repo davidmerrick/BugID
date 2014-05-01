@@ -81,35 +81,6 @@ class AppUsersController extends UsersController {
     			$this->redirect('/');
     		}            
         }
-
-        public function viewbugs($user_id = null) {
-            if (!$this->{$this->modelClass}->exists($user_id)) {
-                throw new NotFoundException(__('Invalid user'));
-            }
-            
-            $user = $this->{$this->modelClass}->find('first', array(
-                'conditions' => array($this->modelClass . '.id' => $user_id)
-            ));
-
-            if (empty($user)) {
-                throw new NotFoundException(__('The user does not exist.'));
-            }
-            
-            $this->set('title_for_layout', ucfirst($user[$this->modelClass]['username']) . '\'s Bugs'); 
-
-            $bugcount = $this->{$this->modelClass}->Bug->find('count', array(
-                'conditions' => array('Bug.user_id' => $user_id)
-            ));
-            
-            $this->paginate['Bug']['order'] = array('Bug.created' => 'DESC');
-            $workers = $this->paginate('Bug', array('Bug.user_id' => $user_id));
-            if ($bugs) {
-                $this->set('bugs', $bugs);
-            }
-
-            $this->set('bugcount', $bugcount);
-            //$this->set(compact('bugs'));
-        }
         
         public function delete_profile_photo($id = null){
             $this->{$this->modelClass}->id = $id;
