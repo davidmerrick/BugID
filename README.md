@@ -6,7 +6,9 @@ Notes:
 2. To change the upload filesize limit of files, modify the .htaccess file in the root directory and change these values:
 
 \#Maximum allowed size for uploaded files.
+
 php_value upload_max_filesize 100M
 
 \#Must be greater than or equal to upload_max_filesize
+
 php_value post_max_size 100M
