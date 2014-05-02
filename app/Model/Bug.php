@@ -77,6 +77,14 @@ class Bug extends AppModel {
 				'message' => 'Please only upload images.',
 				'allowEmpty' => TRUE,
 			),
+            //Make sure the uploaded file actually exists
+            'uploadedImageExists' => array(
+				'rule' => array('uploadedImageExists',
+					'message' => 'Error uploading image. File does not exist in temporary directory on server.',
+					'allowEmpty' => TRUE, 
+				),
+			),
+                
 			//Run it through the processImageUpload method
 			//This takes care of generating thumbnails, web-resolution preview images,
 			//and runs it through the vision algorithm
@@ -121,6 +129,12 @@ class Bug extends AppModel {
             return true;
         }
         
+    
+        //Checks if the uploaded file exists
+        public function uploadedImageExists($check = array()){
+            return is_uploaded_file($check['bug_photo_raw']['tmp_name']);
+        }
+    
         //Handles the upload of images
         public function processImageUpload($check = array()){
 		//How this works:
@@ -131,35 +145,30 @@ class Bug extends AppModel {
 		//4. Repeat step 3 for thumbnail image
 		//5. Eventually (fingers crossed) run the raw image through the classifier 
 		
-            	// Where to store the images
+        // Where to store the images
 		$bug_photos_raw_dir = 'bug_photos_raw'; //Raw images
 		$bug_photos_dir = 'bug_photos'; //Web-resolution images
-            	$bug_photos_thumbnails_dir = 'bug_photos_thumbnails'; //Thumbnails
+        $bug_photos_thumbnails_dir = 'bug_photos_thumbnails'; //Thumbnails
 
-		//Make sure the file was correctly uploaded
-		if(!is_uploaded_file($check['bug_photo_raw']['tmp_name'])){
-			return FALSE;
-		}
+        //Get the extension of the file
+        $extension = pathinfo($check['bug_photo_raw']['name'], PATHINFO_EXTENSION);
 
-            	//Get the extension of the file
-            	$extension = pathinfo($check['bug_photo_raw']['name'], PATHINFO_EXTENSION);
-            
-            	// 1. 
-            	//Generate a random string for the filename based on the MD5 hash of the file
-            	$filename = uniqid(md5_file($check['bug_photo_raw']['tmp_name']));
-            	$raw_photo = WWW_ROOT . 'img' . DS . $bug_photos_raw_dir . DS . $filename . "." . $extension;
-            	
-            	// 2. 
-            	//Change the name of the raw photo and move it to the raw photo directory
-            	if(!move_uploaded_file($check['bug_photo_raw']['tmp_name'], $raw_photo)){
-                	return FALSE;	
-            	}
+        // 1. 
+        //Generate a random string for the filename based on the MD5 hash of the file
+        $filename = uniqid(md5_file($check['bug_photo_raw']['tmp_name']));
+        $raw_photo = WWW_ROOT . 'img' . DS . $bug_photos_raw_dir . DS . $filename . "." . $extension;
 
-            	//Set the file permissions
-            	chmod($raw_photo, 0755);
-            	
-            	//Set the data to be passed back to the controller
-            	$this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
+        // 2. 
+        //Change the name of the raw photo and move it to the raw photo directory
+        if(!move_uploaded_file($check['bug_photo_raw']['tmp_name'], $raw_photo)){
+            return FALSE;	
+        }
+
+        //Set the file permissions
+        chmod($raw_photo, 0755);
+
+        //Set the data to be passed back to the controller
+        $this->data[$this->alias]['bug_photo_raw'] = $bug_photos_raw_dir . DS . $filename . "." . $extension;
 
 		// 3. 
 		//Convert the image for web resolution
