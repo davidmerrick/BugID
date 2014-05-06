@@ -129,6 +129,27 @@ class Bug extends AppModel {
             return true;
         }
         
+        //Classifies the image. Invoke classifier here!
+        private function classify($filename){
+            //TODO: replace the following line with the classifier script when it's ready!   
+            return $this->mock_classify($filename);
+            
+        }
+    
+        //Mocks up the classifier using the MD5 hash of preselected files
+        private function mock_classify($filename){
+            if(md5_file($filename) == 'd9c9ab6a62eae19ee3c7ed4c06b0c83e'){
+                return 'Ant';
+            } else if(md5_file($filename) == '7821740b416aa9bd721fb1835e3fd29c'){
+                return 'Dragonfly';
+            } else if(md5_file($filename) == 'e18c0a7b48af50c140428c589839f511'){
+                return 'Ladybug';
+            } else if(md5_file($filename) == 'f73a4d59f129ccc831f3c95a917ff2b3'){
+                return 'Tarantula';
+            } else {
+                return null;
+            }
+        }
     
         //Checks if the uploaded file exists
         public function uploadedImageExists($check = array()){
@@ -207,10 +228,11 @@ class Bug extends AppModel {
 		$this->data[$this->alias]['bug_photo_thumbnail'] = $bug_photos_thumbnails_dir . DS . $filename . ".jpeg";
 		
 		// 5. 
-		//Todo: Vision algorithm goes here
+		//Classify the image
 		//Use the $data variable to store the result of the classification
 		//This will pass it to the database for storage
-		
+		$this->data[$this->alias]['species_name'] = $this->classify(WWW_ROOT . 'img' . DS . $this->data[$this->alias]['bug_photo_raw']);
+        
 		return TRUE;
 	}
         
