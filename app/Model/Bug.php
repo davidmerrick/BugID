@@ -170,7 +170,8 @@ class Bug extends AppModel {
 		$bug_photos_raw_dir = 'bug_photos_raw'; //Raw images
 		$bug_photos_dir = 'bug_photos'; //Web-resolution images
         $bug_photos_thumbnails_dir = 'bug_photos_thumbnails'; //Thumbnails
-
+        $imageMagick_bin = '/opt/local/bin/convert'; //Location of the imageMagick binary
+            
         //Get the extension of the file
         $extension = pathinfo($check['bug_photo_raw']['name'], PATHINFO_EXTENSION);
 
@@ -197,7 +198,7 @@ class Bug extends AppModel {
 		$compressed_photo = WWW_ROOT . 'img' . DS . $bug_photos_dir . DS . $filename . ".jpeg"; 
 		
 		//Compress the photo for web resolution
-		exec('/usr/bin/convert -size 720x720 ' . $raw_photo . ' ' . $compressed_photo);
+		exec($imageMagick_bin . ' -size 720x720 ' . $raw_photo . ' ' . $compressed_photo);
 		
 		//Check that the web resolution photo was converted properly
 		if(!file_exists($compressed_photo)){
@@ -215,7 +216,7 @@ class Bug extends AppModel {
 		//Save it as same filename but in the bug_photos directory
 		$thumbnail = WWW_ROOT . 'img' . DS . $bug_photos_thumbnails_dir . DS . $filename . ".jpeg"; 
 		//Make sure thumbnail dimensions correspond with how they're displayed (see bugid.css)
-		exec('/usr/bin/convert -size 200x200 ' . $raw_photo . ' ' . $thumbnail);
+		exec($imageMagick_bin . ' -size 200x200 ' . $raw_photo . ' ' . $thumbnail);
 		
 		//Check that the thumbnail was converted properly
 		if(!file_exists($thumbnail)){

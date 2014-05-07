@@ -1,5 +1,8 @@
 Based on the CakePHP framework.
 
+Requirements:
+ImageMagick must be installed on the system, and the $imageMagick_bin variable in app/Model/Bug.php must point to the binary for it. This is so image conversion (for thumbnails and web-resolution preview images) will work.
+
 Notes:
 
 1. When the vision algorithm is ready, place it in the processImageUploadMethod in the Bug model. (app/Model/Bug.php)
