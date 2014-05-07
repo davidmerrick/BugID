@@ -272,7 +272,7 @@ class BugsController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
         
-        public function isAuthorized($user) {
+        public function isAuthorized() {
             // All registered users can add, find, and view their own bugs
             if ($this->action === 'add' || $this->action === 'mybugs' || $this->action === 'find') {
                 return true;
@@ -281,10 +281,10 @@ class BugsController extends AppController {
             // The owner of a bug can edit and delete it
             if (in_array($this->action, array('edit', 'delete'))) {
                 $bugId = $this->request->params['pass'][0];
-                if ($this->Bug->isOwnedBy($bugId, $user['id'])) {
+                if ($this->Bug->isOwnedBy($bugId, $this->auth->user('id'))) {
                     return true;
                 }
             }
-            return parent::isAuthorized($user);
+            return parent::isAuthorized();
         }
 }

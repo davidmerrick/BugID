@@ -117,7 +117,7 @@ class AppUser extends User {
             }
     }
     
-    public function beforeSave(array $options = array()){
+    public function beforeSave($options = Array()){
         if(isset($this->data[$this->alias]['profile_photo'])){
             //Delete previosly-uploaded profile photo
             $info = $this->find('first', array(

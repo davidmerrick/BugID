@@ -97,7 +97,7 @@ class Bug extends AppModel {
         	),
         );
         
-        public function beforeDelete(){
+        public function beforeDelete($cascade = true){
             //delete associated image
             //Sinve all images share the same filename, this finds all of them
             $info = $this->find('first', array(
